@@ -1,0 +1,339 @@
+{
+  "lanes": [
+    {
+      "id": 4,
+      "name": "Initialisation",
+      "color": "#297FB8",
+      "tasks": [
+        {
+          "id": 8,
+          "title": "Cde Serv.",
+          "type": "J",
+          "color": "#297FB8",
+          "start": "2026-04-06",
+          "end": "2026-04-06",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 25,
+          "title": "BTO",
+          "type": "J",
+          "color": "#297FB8",
+          "start": "2026-04-17",
+          "end": "2026-04-17",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 7,
+          "title": "Transfert AVV > PROD",
+          "type": "T",
+          "color": "#297FB8",
+          "start": "2026-04-06",
+          "end": "2026-04-10",
+          "pct": 7,
+          "status": ""
+        },
+        {
+          "id": 36,
+          "title": "Réunion de lancement",
+          "type": "J",
+          "color": "#297FB8",
+          "start": "2026-04-23",
+          "end": "2026-04-23",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 37,
+          "title": "NdC",
+          "type": "J",
+          "color": "#297FB8",
+          "start": "2026-04-30",
+          "end": "2026-04-30",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 24,
+          "title": "Prep lancement",
+          "type": "T",
+          "color": "#297FB8",
+          "start": "2026-04-13",
+          "end": "2026-04-24",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 26,
+          "title": "Résa équipe et admin",
+          "type": "T",
+          "color": "#297FB8",
+          "start": "2026-04-24",
+          "end": "2026-05-01",
+          "pct": 0,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Design",
+      "color": "#27AE60",
+      "tasks": [
+        {
+          "id": 34,
+          "title": "WS 1",
+          "type": "J",
+          "color": "#27AE60",
+          "start": "2026-05-06",
+          "end": "2026-05-06",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 32,
+          "title": "Definition solution",
+          "type": "T",
+          "color": "#27AE60",
+          "start": "2026-05-04",
+          "end": "2026-05-27",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 42,
+          "title": "DAT v0",
+          "type": "J",
+          "color": "#27AE60",
+          "start": "2026-05-18",
+          "end": "2026-05-18",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 86,
+          "title": "WS 2",
+          "type": "J",
+          "color": "#27AE60",
+          "start": "2026-05-13",
+          "end": "2026-05-13",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 87,
+          "title": "DAT v1 final",
+          "type": "J",
+          "color": "#27AE60",
+          "start": "2026-05-27",
+          "end": "2026-05-27",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 38,
+          "title": "Relecture client",
+          "type": "T",
+          "color": "#27AE60",
+          "start": "2026-05-18",
+          "end": "2026-05-27",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 90,
+          "title": "Creation procedure usine",
+          "type": "T",
+          "color": "#27AE60",
+          "start": "2026-05-28",
+          "end": "2026-06-05",
+          "pct": 0,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Reception HW & \nStaging",
+      "color": "#E67E22",
+      "tasks": [
+        {
+          "id": 85,
+          "title": "Cde HW",
+          "type": "J",
+          "color": "#E67E22",
+          "start": "2026-04-01",
+          "end": "2026-04-01",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 89,
+          "title": "Appro HW",
+          "type": "T",
+          "color": "#E67E22",
+          "start": "2026-04-01",
+          "end": "2026-05-22",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 92,
+          "title": "LS témoin pour créa proc.",
+          "type": "T",
+          "color": "#E67E22",
+          "start": "2026-05-25",
+          "end": "2026-06-05",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 94,
+          "title": "Staging Prod",
+          "type": "T",
+          "color": "#E67E22",
+          "start": "2026-06-08",
+          "end": "2026-06-19",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 95,
+          "title": "Transport / Livraison",
+          "type": "T",
+          "color": "#E67E22",
+          "start": "2026-06-19",
+          "end": "2026-06-24",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 96,
+          "title": "Réception & Stockage sur place",
+          "type": "T",
+          "color": "#E67E22",
+          "start": "2026-06-24",
+          "end": "2026-06-26",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 97,
+          "title": "HW reçu",
+          "type": "J",
+          "color": "#E67E22",
+          "start": "2026-05-15",
+          "end": "2026-05-15",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 101,
+          "title": "BL signé",
+          "type": "J",
+          "color": "#E67E22",
+          "start": "2026-06-24",
+          "end": "2026-06-24",
+          "pct": 0,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Installation & \nMise en service",
+      "color": "#F1C40F",
+      "tasks": [
+        {
+          "id": 98,
+          "title": "Installation en LT",
+          "type": "T",
+          "color": "#F1C40F",
+          "start": "2026-06-29",
+          "end": "2026-07-10",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 99,
+          "title": "PV recette",
+          "type": "J",
+          "color": "#F1C40F",
+          "start": "2026-07-10",
+          "end": "2026-07-10",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 100,
+          "title": "Installation AP",
+          "type": "T",
+          "color": "#F1C40F",
+          "start": "2026-06-29",
+          "end": "2026-07-03",
+          "pct": 0,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Transfert de \ncompétences",
+      "color": "#C0392B",
+      "tasks": [
+        {
+          "id": 102,
+          "title": "Préparation DEX et transfert comp.",
+          "type": "T",
+          "color": "#C0392B",
+          "start": "2026-07-06",
+          "end": "2026-07-17",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 103,
+          "title": "DEX livré & Client formé",
+          "type": "J",
+          "color": "#C0392B",
+          "start": "2026-07-17",
+          "end": "2026-07-17",
+          "pct": 0,
+          "status": ""
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Cloture",
+      "color": "#9B59B6",
+      "tasks": [
+        {
+          "id": 105,
+          "title": "Préparation Clôture",
+          "type": "T",
+          "color": "#9B59B6",
+          "start": "2026-07-16",
+          "end": "2026-07-24",
+          "pct": 0,
+          "status": ""
+        },
+        {
+          "id": 106,
+          "title": "Réunion de clôture",
+          "type": "J",
+          "color": "#9B59B6",
+          "start": "2026-07-24",
+          "end": "2026-07-24",
+          "pct": 0,
+          "status": ""
+        }
+      ]
+    }
+  ],
+  "lid": 27,
+  "tid": 109,
+  "jalonColorIdx": 57
+}
