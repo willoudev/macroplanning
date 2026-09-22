@@ -1,5 +1,7 @@
 # Macro Planning
 
+**Version actuelle : v1.0.0** — voir [CHANGELOG.md](./CHANGELOG.md) · [site en ligne](https://willoudev.github.io/macroplanning/)
+
 Application de macro-planning (Gantt) 100% statique — HTML/CSS/JS, sans backend.
 
 Portée depuis le [Space Hugging Face `WillouDev/macroplanning`](https://huggingface.co/spaces/WillouDev/macroplanning) (qui exécutait cette même page via un wrapper Streamlit) vers un site statique déployable sur GitHub Pages.
