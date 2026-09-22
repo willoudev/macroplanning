@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.0 — 2026-09-22
+## v4.2.0 — 2026-09-22
 
 Portage initial de l'application depuis le Space Hugging Face [`WillouDev/macroplanning`](https://huggingface.co/spaces/WillouDev/macroplanning) vers un site statique GitHub Pages.
 
