@@ -3850,11 +3850,10 @@ function shiftSel(sign,unit,count){
     if(p.x<tlLLv) return;
     const band=tlBands.find(b=>p.y>=b.y0&&p.y<b.y1); if(!band) return;
     st={ id:e.pointerId, x:p.x, y:p.y, cx:e.clientX, cy:e.clientY, band, moved:false, add:e.shiftKey||e.ctrlKey||e.metaKey };
-    try{ svg.setPointerCapture(e.pointerId); }catch(_){}
   });
   svg.addEventListener('pointermove',e=>{
     if(!st||e.pointerId!==st.id) return;
-    if(!st.moved){ if(Math.hypot(e.clientX-st.cx,e.clientY-st.cy)<5) return; st.moved=true;
+    if(!st.moved){ if(Math.hypot(e.clientX-st.cx,e.clientY-st.cy)<5) return; st.moved=true; try{ svg.setPointerCapture(e.pointerId); }catch(_){}
       box=document.createElementNS(SVGNS,'rect'); box.setAttribute('class','sel-ui'); box.setAttribute('fill','rgba(37,99,235,0.12)'); box.setAttribute('stroke','#2563eb'); box.setAttribute('stroke-width','1.2'); box.setAttribute('stroke-dasharray','5,3'); box.style.pointerEvents='none'; svg.appendChild(box); }
     const p=pt(e), y=Math.max(st.band.y0,Math.min(st.band.y1,p.y)), x=Math.max(tlLLv,Math.min(tlVBw,p.x));
     box.setAttribute('x',Math.min(st.x,x)); box.setAttribute('y',Math.min(st.y,y)); box.setAttribute('width',Math.abs(x-st.x)); box.setAttribute('height',Math.abs(y-st.y));
