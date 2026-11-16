@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<title>Macro Planning</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none';">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -120,6 +122,60 @@ td input[type=color] { width:28px; height:22px; padding:1px; border:1px solid #d
 .task-size-row button:hover { background:#fff5f5; }
 .task-size-val { font-size:12px; color:#555; min-width:28px; text-align:center; }
 svg text, svg tspan { text-rendering: geometricPrecision; }
+
+.uimode { display:flex; margin:8px 0 0; }
+.uimode button { flex:1; padding:5px 6px; font-size:11px; border:1px solid #ccc; background:#fff; color:#555; cursor:pointer; }
+.uimode button:first-child { border-radius:6px 0 0 6px; } .uimode button:last-child { border-radius:0 6px 6px 0; border-left:none; }
+.uimode button.active { background:#2c3e50; color:#fff; border-color:#2c3e50; }
+.simple-hint { display:none; font-size:10px; color:#888; margin-top:6px; line-height:1.35; }
+.sidebar.simple .simple-hint { display:block; }
+.sidebar.simple .adv, .sidebar.simple .sub-options:not(#jalons-sub) { display:none !important; }
+#print-root { display:none; }
+@media print {
+  body > *:not(#print-root) { display:none !important; }
+  #print-root { display:block !important; }
+  html, body { height:auto !important; overflow:visible !important; background:#fff !important; }
+}
+/* ═══ Thème : finition visuelle ═══ */
+body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif; background:#f4f5f7; color:#1f2937; -webkit-font-smoothing:antialiased; }
+.app-shell { background:#f4f5f7; }
+.header-shell { border-bottom-color:#e5e7eb; box-shadow:0 1px 2px rgba(16,24,40,.04); }
+.ic { display:block; flex-shrink:0; }
+.brand { display:flex; align-items:center; gap:8px; flex-shrink:0; user-select:none; }
+.brand-name { font-size:13.5px; font-weight:700; color:#111827; letter-spacing:-.01em; white-space:nowrap; }
+.brand-ver { font-size:10px; font-weight:600; color:#6b7280; background:#f3f4f6; border:1px solid #e5e7eb; border-radius:999px; padding:1px 7px; }
+@media (max-width:1180px){ .brand-name, .brand-ver { display:none; } }
+.btn { border-radius:6px; border-color:#d1d5db; color:#374151; font-family:inherit; transition:background .12s, border-color .12s, color .12s, box-shadow .12s; }
+.btn:hover { background:#f3f4f6; border-color:#c4c9d1; }
+.btn:focus-visible, .tab:focus-visible, input:focus-visible, select:focus-visible { outline:2px solid #c0392b55; outline-offset:1px; }
+.btn-icon { color:#4b5563; border-color:transparent; background:transparent; }
+.btn-icon:hover { background:#f3f4f6; border-color:#e5e7eb; color:#111827; }
+.btn-primary { background:#c0392b; color:#fff; border-color:#c0392b; box-shadow:0 1px 2px rgba(192,57,43,.25); }
+.btn-primary:hover { background:#a93226; border-color:#a93226; }
+.btn-danger, .btn-warn, .btn-muted { background:transparent; border-color:transparent; color:#6b7280; justify-content:flex-start !important; font-weight:500; }
+.btn-danger:hover { background:#fef2f2; color:#b91c1c; border-color:transparent; }
+.btn-warn:hover { background:#fff7ed; color:#c2410c; border-color:transparent; }
+.btn-muted:hover { background:#f3f4f6; color:#111827; border-color:transparent; }
+.burger-btn { border-color:transparent; }
+.topbar-sep { background:#e5e7eb; }
+.topbar-group-label { color:#9ca3af; letter-spacing:.08em; margin-right:2px; }
+.tab-bar { gap:0; background:#f3f4f6; border:1px solid #e5e7eb; border-radius:8px; padding:2px; }
+.tab { display:inline-flex; align-items:center; gap:6px; border:none; background:transparent; color:#4b5563; border-radius:6px; padding:5px 14px; font-family:inherit; font-weight:600; transition:background .12s,color .12s; }
+.tab:hover { color:#111827; }
+.tab.active { background:#fff; color:#c0392b; box-shadow:0 1px 2px rgba(16,24,40,.12); }
+.sidebar { border-right-color:#e5e7eb; }
+.sidebar h3 { color:#6b7280; letter-spacing:.07em; font-size:10.5px; }
+.collapsible-head { padding:2px 0; border-radius:4px; }
+.collapsible-head:hover h3 { color:#111827; }
+.sidebar-sep { border-top-color:#eef0f3; }
+.phase { border-radius:10px; box-shadow:0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.06); border:1px solid #e5e7eb; }
+::-webkit-scrollbar { width:10px; height:10px; }
+::-webkit-scrollbar-thumb { background:#cfd4dc; border-radius:8px; border:2px solid transparent; background-clip:content-box; }
+::-webkit-scrollbar-thumb:hover { background:#aeb5c0; background-clip:content-box; border:2px solid transparent; }
+#export-menu { position:fixed; z-index:10040; background:#fff; border:1px solid #e5e7eb; border-radius:8px; box-shadow:0 8px 24px rgba(16,24,40,.16); padding:4px; flex-direction:column; gap:2px; }
+#export-menu .btn { border-color:transparent; justify-content:center; font-size:10.5px; font-weight:700; letter-spacing:.04em; width:44px; height:28px; padding:0; }
+#export-menu .btn:hover { background:#f3f4f6; }
+#btn-export[aria-expanded="true"] { background:#f3f4f6; border-color:#e5e7eb; color:#111827; }
 </style>
 </head>
 <body>
@@ -134,7 +190,7 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
     background:#1c1b19; border:1px solid #393836; border-radius:12px;
     padding:36px 40px; max-width:360px; width:90%; box-shadow:0 8px 40px rgba(0,0,0,0.6);
     text-align:center;">
-    <div style="font-size:28px; margin-bottom:8px;">🔐</div>
+    <div style="margin-bottom:12px;"><svg width="44" height="44" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#c0392b"/><path d="M5 7.5h8M9 12h10M6.5 16.5h7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg></div>
     <h2 style="color:#cdccca; font-size:16px; font-weight:700; margin:0 0 4px 0;">Macro Planning</h2>
     <p style="color:#797876; font-size:12px; margin:0 0 24px 0;">Code d'accès requis</p>
     <input id="license-input" type="password" placeholder="Entrez votre code d'accès"
@@ -158,7 +214,7 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
       Accéder
     </button>
     <p style="color:#5a5957; font-size:10px; margin:16px 0 0 0;">
-      v4.2 &mdash; Accès sécurisé
+      v4.3 &mdash; Accès sécurisé
     </p>
   </div>
 </div>
@@ -166,40 +222,49 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
 <div class="header-shell">
 <div class="topbar">
   <button class="btn burger-btn" id="burger-btn" type="button" onclick="toggleSidebar()" title="Ouvrir / fermer le menu" aria-label="Ouvrir / fermer le menu"><span class="burger-icon" aria-hidden="true"><span></span><span></span><span></span></span></button>
-  <button class="btn btn-primary" onclick="addLane()" title="Ajouter une phase">＋ Phase</button>
+  <div class="brand" title="Macro Planning"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#c0392b"/><path d="M5 7.5h8M9 12h10M6.5 16.5h7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="brand-name">Macro Planning</span><span class="brand-ver">v4.3</span></div>
+  <div class="topbar-sep"></div>
+  <button class="btn btn-primary" onclick="addLane()" title="Ajouter une phase"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Phase</button>
+  <button class="btn" onclick="addFreezeFromGantt()" title="Ajouter une période de gel" style="font-weight:600;"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"/><path d="M2 12h20"/><path d="m5 5 14 14"/><path d="m19 5-14 14"/></svg> Gel</button>
 
   <div class="topbar-sep"></div>
   <div class="topbar-group">
     <span class="topbar-group-label">Planning</span>
-    <button class="btn btn-icon" id="btn-undo" onclick="undoPlanning()" title="Retour : revenir incrémentalement aux dernières modifications" aria-label="Retour">↶</button>
-    <button class="btn btn-icon" id="btn-redo" onclick="redoPlanning()" title="Annuler retour : rétablir le ou les retours effectués" aria-label="Annuler retour">↷</button>
-    <button class="btn btn-icon" onclick="promptSaveJSON()" title="Sauvegarder le planning en JSON" aria-label="Sauvegarder le planning">💾</button>
-    <label class="btn btn-icon" style="cursor:pointer;" title="Charger un planning JSON" aria-label="Charger un planning">📂<input type="file" accept=".json" style="display:none" onchange="importJSON(event)"></label>
-    <button class="btn btn-icon" onclick="checkModelsFolder()" title="Importer un modèle" aria-label="Importer un modèle">🧩</button>
-    <button class="btn btn-icon" onclick="copyMacroPlanningImage()" title="Exporter le planning en PNG" aria-label="Exporter le planning en PNG">🖼️</button>
+    <button class="btn btn-icon" id="btn-undo" onclick="undoPlanning()" title="Retour : revenir incrémentalement aux dernières modifications" aria-label="Retour"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+    <button class="btn btn-icon" id="btn-redo" onclick="redoPlanning()" title="Annuler retour : rétablir le ou les retours effectués" aria-label="Annuler retour"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>
+    <button class="btn btn-icon" onclick="promptSaveJSON()" title="Sauvegarder le planning en JSON" aria-label="Sauvegarder le planning"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg></button>
+    <label class="btn btn-icon" style="cursor:pointer;" title="Charger un planning JSON" aria-label="Charger un planning"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9l-.8-1.2A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><input type="file" accept=".json" style="display:none" onchange="importJSON(event)"></label>
+    <button class="btn btn-icon" onclick="checkModelsFolder()" title="Importer un modèle" aria-label="Importer un modèle"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></button>
+    <button class="btn btn-icon" id="btn-export" onclick="toggleExportMenu(event)" title="Exporter le planning (PNG, SVG, PDF)" aria-label="Exporter le planning" aria-haspopup="true" aria-expanded="false"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg></button>
   </div>
 
   <div class="topbar-sep"></div>
   <div class="topbar-group">
     <span class="topbar-group-label">Réglages</span>
-    <button class="btn btn-icon" onclick="promptSaveSettingsJSON()" title="Sauvegarder les réglages" aria-label="Sauvegarder les réglages">⚙️</button>
-    <label class="btn btn-icon" style="cursor:pointer;" title="Importer les réglages" aria-label="Importer les réglages">📂<input type="file" accept=".json" style="display:none" onchange="importSettingsJSON(event)"></label>
-    <button class="btn btn-icon" onclick="openVersionHistory()" title="Historique des versions" aria-label="Historique des versions">📋</button>
-    <button class="btn btn-icon" onclick="openMemoryDiagnostic()" title="Diagnostic mémoire locale" aria-label="Diagnostic mémoire locale">🗄️</button>
+    <button class="btn btn-icon" onclick="promptSaveSettingsJSON()" title="Exporter les réglages" aria-label="Exporter les réglages"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg></button>
+    <label class="btn btn-icon" style="cursor:pointer;" title="Importer les réglages" aria-label="Importer les réglages"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg><input type="file" accept=".json" style="display:none" onchange="importSettingsJSON(event)"></label>
+    <button class="btn btn-icon" onclick="openVersionHistory()" title="Historique des versions" aria-label="Historique des versions"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></button>
+    <button class="btn btn-icon" onclick="openMemoryDiagnostic()" title="Diagnostic mémoire locale" aria-label="Diagnostic mémoire locale"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></button>
   </div>
   <div class="tab-bar">
-    <button class="tab" id="tab-d" onclick="showTab('data')">☰ Données</button>
-    <button class="tab active" id="tab-t" onclick="showTab('timeline')">⟶ Gantt</button>
+    <button class="tab" id="tab-d" onclick="showTab('data')"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg> Données</button>
+    <button class="tab active" id="tab-t" onclick="showTab('timeline')"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h9"/><path d="M9 12h11"/><path d="M6 18h8"/></svg> Gantt</button>
   </div>
 </div>
+</div>
+<div id="export-menu" role="menu" style="display:none;">
+  <button class="btn" role="menuitem" onclick="closeExportMenu();copyMacroPlanningImage()" title="Image PNG">PNG</button>
+  <button class="btn" role="menuitem" onclick="closeExportMenu();exportSVG()" title="SVG vectoriel">SVG</button>
+  <button class="btn" role="menuitem" onclick="closeExportMenu();exportPDF()" title="PDF vectoriel (via l'impression)">PDF</button>
 </div>
 <div class="app-shell">
 <div class="app-body">
   <div class="sidebar">
-    <div style="padding:8px 0 0 0;font-size:11px;font-weight:700;color:#000;letter-spacing:0.05em;">v4.2</div>
+    <div class="uimode"><button type="button" id="uimode-simple" onclick="applyUIMode('simple')">Simplifié</button><button type="button" id="uimode-adv" onclick="applyUIMode('advanced')">Avancé</button></div>
+    <div class="simple-hint">Mode simplifié : tailles, palette et options détaillées sont masquées. Passez en « Avancé » pour tout afficher.</div>
     <hr class="sidebar-sep" style="margin:12px 0;">
     <div>
-      <div class="collapsible-head" onclick="toggleSection('deplacement-planning-body','deplacement-planning-chev')"><h3 style="margin:0;">DEPLACEMENT PLANNING</h3><span class="chev" id="deplacement-planning-chev">▸</span></div>
+      <div class="collapsible-head" onclick="toggleSection('deplacement-planning-body','deplacement-planning-chev')"><h3 style="margin:0;">DÉPLACEMENT DU PLANNING</h3><span class="chev" id="deplacement-planning-chev">▸</span></div>
       <div class="collapsible-body collapsed" id="deplacement-planning-body" style="margin-top:10px;">
         <div style="font-size:12px;font-weight:700;color:#333;">Sauts de puce</div><div style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px;"><div style="display:flex;gap:6px;"><button type="button" onclick="shiftPlanningDays(-1)"   style="font-size:11px;padding:3px 8px;flex:1;">- 1 jour</button><button type="button" onclick="shiftPlanningDays(1)"    style="font-size:11px;padding:3px 8px;flex:1;">+ 1 jour</button></div><div style="display:flex;gap:6px;"><button type="button" onclick="shiftPlanningWeeks(-1)"  style="font-size:11px;padding:3px 8px;flex:1;">- 1 sem.</button><button type="button" onclick="shiftPlanningWeeks(1)"   style="font-size:11px;padding:3px 8px;flex:1;">+ 1 sem.</button></div><div style="display:flex;gap:6px;"><button type="button" onclick="shiftPlanningMonths(-1)" style="font-size:11px;padding:3px 8px;flex:1;">- 1 mois</button><button type="button" onclick="shiftPlanningMonths(1)"  style="font-size:11px;padding:3px 8px;flex:1;">+ 1 mois</button></div></div>
         <div style="margin-top:10px;"><div style="font-size:12px;font-weight:700;color:#333;">Changer le T0</div><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;"><input type="date" id="t0-new-date" style="font-size:11px;padding:2px 4px;"></div></div>
@@ -207,7 +272,7 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
     </div>
     <hr class="sidebar-sep" style="margin:12px 0;">
     <div>
-      <div class="collapsible-head" onclick="toggleSection('time-scale-body','time-scale-chev')"><h3 style="margin:0;">ECHELLE DE TEMPS</h3><span class="chev" id="time-scale-chev">▸</span></div>
+      <div class="collapsible-head" onclick="toggleSection('time-scale-body','time-scale-chev')"><h3 style="margin:0;">ÉCHELLE DE TEMPS</h3><span class="chev" id="time-scale-chev">▸</span></div>
       <div class="collapsible-body collapsed" id="time-scale-body" style="margin-top:10px;">
         <div>
           <div style="font-size:12px;font-weight:700;color:#333;">Graduations principales</div>
@@ -215,7 +280,7 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
           <input type="range" id="scale-slider" min="0" max="7" step="1" value="2" oninput="onScaleChange(+this.value)"/>
           <div class="scale-labels"><span>J</span><span>J-i</span><span>S</span><span>S-i</span><span>M</span><span>M-i</span><span>Tri</span><span>An</span></div>
         </div>
-        <div id="day-step-wrap" style="margin-top:10px;">
+        <div id="day-step-wrap" class="adv" style="margin-top:10px;">
           <div style="font-size:12px;font-weight:700;color:#333;">Graduation jours</div>
           <div class="scale-cur" id="day-step-cur-lbl">Multiples de 5</div>
           <input type="range" id="day-step-slider" min="0" max="3" step="1" value="2" oninput="onDayStepChange(+this.value)"/>
@@ -227,14 +292,14 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
             <input type="radio" name="day-step" value="10"/>
           </div>
         </div>
-        <div style="margin-top:12px;">
+        <div class="adv" style="margin-top:12px;">
           <div style="font-size:12px;font-weight:700;color:#333;">Début de la barre</div>
           <div class="radio-group">
             <label><input type="radio" name="tl-start" value="0" onchange="renderTimeline(); saveState()"/> Début 1er mois</label>
             <label><input type="radio" name="tl-start" value="1" checked onchange="renderTimeline(); saveState()"/> Début 1er mois − 1</label>
           </div>
         </div>
-        <div style="margin-top:12px;">
+        <div class="adv" style="margin-top:12px;">
           <div style="font-size:12px;font-weight:700;color:#333;">Fin de la barre</div>
           <div class="radio-group">
             <label><input type="radio" name="tl-end" value="2" onchange="renderTimeline(); saveState()"/> Dernier jour</label>
@@ -242,7 +307,7 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
             <label><input type="radio" name="tl-end" value="1" onchange="renderTimeline(); saveState()"/> Fin dernier mois + 1</label>
           </div>
         </div>
-        <button class="btn" style="justify-content:center;margin-top:10px;" onclick="resetTimeScaleDefaults()">Valeurs par défaut</button>
+        <button class="btn adv" style="justify-content:center;margin-top:10px;" onclick="resetTimeScaleDefaults()">Valeurs par défaut</button>
       </div>
     </div>
     <hr class="sidebar-sep" style="margin:12px 0;">
@@ -264,17 +329,18 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
         <label><input type="checkbox" id="chk-jalons-master" checked onchange="toggleJalonsOptions(); renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Jalons</label>
         <div class="sub-options" id="jalons-sub">
           <label><input type="checkbox" id="chk-jalons-flags" checked onchange="renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Drapeaux jalons</label>
-          <label><input type="checkbox" id="chk-dash-dot" onchange="renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Trait pointillé jalon</label>
-          <label><input type="checkbox" id="chk-jalon-lines" checked onchange="toggleJalonsLinesOptions(); renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Lignes jalons</label>
+          <label class="adv"><input type="checkbox" id="chk-dash-dot" onchange="renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Trait pointillé jalon</label>
+          <label class="adv"><input type="checkbox" id="chk-jalon-lines" checked onchange="toggleJalonsLinesOptions(); renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Lignes jalons</label>
           <div class="sub-options" id="jalon-lines-sub">
             <label><input type="radio" name="jalon-line-pos" value="first" onchange="renderTimeline(); saveState()"/> Première ligne</label>
             <label><input type="radio" name="jalon-line-pos" value="last" checked onchange="renderTimeline(); saveState()"/> Dernière ligne</label>
           </div>
         </div>
 
-        <label><input type="checkbox" id="chk-taches-master" checked onchange="toggleTachesOptions(); renderTimeline(); saveState()"/> Tâches et Phases</label>
+        <label><input type="checkbox" id="chk-lane-col" checked onchange="renderTimeline(); saveState()"/> Phases (colonne)</label>
+        <label style="display:flex;align-items:center;gap:6px;padding-left:22px;font-size:11px;color:#555;">Largeur <input type="range" id="lane-col-w" min="80" max="400" step="10" value="130" oninput="laneColW=+this.value;document.getElementById('lane-col-w-val').textContent=this.value;renderTimeline();saveState()" style="flex:1;min-width:0;"/><span id="lane-col-w-val" style="min-width:26px;text-align:right;">130</span></label>
+        <label><input type="checkbox" id="chk-taches-master" checked onchange="toggleTachesOptions(); renderTimeline(); saveState()"/> Tâches (barres)</label>
         <div class="sub-options" id="taches-sub">
-          <label><input type="checkbox" id="chk-lane-col" checked onchange="renderTimeline(); saveState()"/> Colonne Phases</label>
           <label><input type="checkbox" id="chk-task-label" checked onchange="toggleTaskLabelOptions()"/> Titre des tâches</label>
           <div class="sub-options" id="task-label-sub">
             <label><input type="radio" name="task-label-pos" value="inside" onchange="renderTimeline(); saveState()"/> Dans la barre</label>
@@ -293,8 +359,8 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
         <button class="btn" style="justify-content:center;margin-top:10px;" onclick="resetAfficherDefaults()">Valeurs par défaut</button>
       </div>
     </div>
-    <hr class="sidebar-sep" style="margin:12px 0;">
-    <div>
+    <hr class="sidebar-sep adv" style="margin:12px 0;">
+    <div class="adv">
       <div class="collapsible-head" onclick="toggleSection('sizes-body','sizes-chev')"><h3 style="margin:0;">TAILLES</h3><span class="chev" id="sizes-chev">▸</span></div>
       <div class="collapsible-body collapsed" id="sizes-body" style="display:flex;flex-direction:column;gap:7px;margin-top:10px;">
         <div style="font-weight:700; color:#555; font-size:11px; margin-top:8px; border-bottom:1px solid #ddd; padding-bottom:2px; text-transform:uppercase;">Global</div>
@@ -486,8 +552,8 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
         <button class="btn" style="justify-content:center;margin-top:10px;" onclick="resetSizesDefaults()">Valeurs par défaut</button>
       </div>
     </div>
-    <hr class="sidebar-sep" style="margin:12px 0;">
-    <div>
+    <hr class="sidebar-sep adv" style="margin:12px 0;">
+    <div class="adv">
       <div class="collapsible-head" onclick="toggleSection('palette-body','palette-chev')"><h3 style="margin:0;">PALETTE DE COULEURS</h3><span class="chev" id="palette-chev">▸</span></div>
       <div class="collapsible-body collapsed" id="palette-body" style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
         <label style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;">Couleur barre de temps <input type="color" style="width:34px;height:22px;padding:0;border:none;background:transparent;" id="timebar-color" value="#0b0f14" onchange="setTimebarColor(this.value)"/></label>
@@ -520,7 +586,7 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
     </div>
     <hr class="sidebar-sep" style="margin:12px 0;">
     <div>
-      <div class="collapsible-head" onclick="toggleSection('models-body','models-chev')"><h3 style="margin:0;">MES MODELES</h3><span class="chev" id="models-chev">▸</span></div>
+      <div class="collapsible-head" onclick="toggleSection('models-body','models-chev')"><h3 style="margin:0;">MES MODÈLES</h3><span class="chev" id="models-chev">▸</span></div>
       <div class="collapsible-body collapsed" id="models-body" style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
         <label class="btn" style="justify-content:center;width:100%;font-size:11px;cursor:pointer;margin:0;">➕ Ajout répertoire local<input type="file" webkitdirectory directory multiple style="display:none;" onchange="handleLocalDirSelect(event)"></label>
         <div id="local-dirs-container" style="display:flex;flex-direction:column;gap:4px;"></div>
@@ -528,9 +594,9 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
     </div>
     <hr class="sidebar-sep" style="margin:12px 0;">
     <div style="display:flex;flex-direction:column;gap:6px;padding:10px 0 4px 0;">
-    <button class="btn btn-danger" style="justify-content:center;width:100%;" onclick="clearMacroPlanning()">🗑️ Supprimer le macro planning</button>
-    <button class="btn btn-warn" style="justify-content:center;width:100%;" onclick="resetAll()">↺ RaZ complet</button>
-    <button class="btn btn-muted" style="justify-content:center;width:100%;margin-top:2px;" onclick="logoutApp()">⎋ Me déconnecter</button>
+    <button class="btn btn-danger" style="justify-content:center;width:100%;" onclick="clearMacroPlanning()"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 14H6L5 6"/></svg> Supprimer le planning</button>
+    <button class="btn btn-warn" style="justify-content:center;width:100%;" onclick="resetAll()" title="Efface le planning et remet tous les réglages par défaut"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg> Tout réinitialiser</button>
+    <button class="btn btn-muted" style="justify-content:center;width:100%;margin-top:2px;" onclick="logoutApp()"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg> Se déconnecter</button>
 
   </div>
   </div>
@@ -538,7 +604,7 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
     <div id="planning-title-wrap">
       <input id="planning-title" type="text" value="Macro-planning projet" placeholder="Titre du planning..."/>
     </div>
-    <div class="view" id="view-data"><div id="lanes"></div></div>
+    <div class="view" id="view-data"><div id="freezes-panel"></div><div id="lanes"></div></div>
     <div class="view active" id="view-timeline">
       <div class="tl-outer"><svg id="tl-svg"></svg></div>
     </div>
@@ -566,6 +632,16 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
   <div class="modal-box" style="max-width:760px;max-height:80vh;overflow-y:auto;overflow-x:hidden;">
     <h3 style="margin-bottom:10px;text-align:left;">Historique versions</h3>
     <div style="font-size:13px;line-height:1.5;color:#222;text-align:left;white-space:normal;">
+      <div style="font-weight:700;margin:8px 0 6px;">V4.3:</div>
+      <ul style="margin:0 0 10px 18px;padding:0;">
+        <li>Nouveau : périodes de gel. Affichées dans le bas de la barre de temps (gris clair par défaut, couleur et opacité réglables), avec option « Sur toute la hauteur ». Ajout par le bouton « Gel », édition directe dans le Gantt (glisser, tirer les bords, clic pour modifier nom, dates, couleur, opacité) ou dans l'onglet Données. Elles sont sauvegardées avec le planning et ne sont jamais décalées par le déplacement du planning ou d'une phase.</li>
+        <li>Nouveau : export SVG et PDF vectoriels, en plus du PNG, regroupés sous un seul bouton d'export.</li>
+        <li>Barre latérale : mode « Simplifié » (par défaut) et mode « Avancé », choix mémorisé.</li>
+        <li>Affichages : « Phases (colonne) » et « Tâches (barres) » deviennent deux cases indépendantes ; masquer les tâches conserve les losanges des jalons et les phases ; largeur de la colonne des phases réglable.</li>
+        <li>Barre d'outils revue : icônes vectorielles homogènes, disquette pour la sauvegarde, export et import des réglages par flèches, nom de l'application et version dans l'en-tête, onglets Données / Gantt en sélecteur.</li>
+        <li>Finition visuelle : typographie et couleurs harmonisées, libellés corrigés, titre d'onglet et icône du site.</li>
+        <li>Phase : boutons de décalage renommés « ± 30 jours ». Suppression de code mort.</li>
+      </ul>
       <div style="font-weight:700;margin:8px 0 6px;">V4.2:</div>
       <ul style="margin:0 0 10px 18px;padding:0;">
         <li>Correction définitive de la synchronisation entre la vue Données et le Gantt : la modification de la date d'un jalon met désormais fin et début à jour, avec redessin fiable du Gantt via une fonction dédiée (updateJalonDate).</li>
@@ -646,7 +722,7 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
   <div style="display:flex;flex-direction:column;gap:4px;margin:6px 0 10px;">
     <div style="display:flex;gap:6px;"><button type="button" onclick="shiftPhasePlanningDays(-1)" style="font-size:11px;padding:4px 8px;flex:1;">- 1 jour</button><button type="button" onclick="shiftPhasePlanningDays(1)" style="font-size:11px;padding:4px 8px;flex:1;">+ 1 jour</button></div>
     <div style="display:flex;gap:6px;"><button type="button" onclick="shiftPhasePlanningWeeks(-1)" style="font-size:11px;padding:4px 8px;flex:1;">- 1 sem.</button><button type="button" onclick="shiftPhasePlanningWeeks(1)" style="font-size:11px;padding:4px 8px;flex:1;">+ 1 sem.</button></div>
-    <div style="display:flex;gap:6px;"><button type="button" onclick="shiftPhasePlanningMonths(-1)" style="font-size:11px;padding:4px 8px;flex:1;">- 1 mois</button><button type="button" onclick="shiftPhasePlanningMonths(1)" style="font-size:11px;padding:4px 8px;flex:1;">+ 1 mois</button></div>
+    <div style="display:flex;gap:6px;"><button type="button" onclick="shiftPhasePlanningMonths(-1)" style="font-size:11px;padding:4px 8px;flex:1;">- 30 jours</button><button type="button" onclick="shiftPhasePlanningMonths(1)" style="font-size:11px;padding:4px 8px;flex:1;">+ 30 jours</button></div>
   </div>
   <div style="margin-top:4px;">
     <div style="font-size:11px;font-weight:700;color:#333;margin-bottom:6px;">Changer le T0</div>
@@ -660,6 +736,9 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
 <script>
 // ═══ STATE ═══════════════════════════════════════════════════
 let lanes=[], lid=1, tid=1;
+try{ localStorage.removeItem('test_mp_anthropic_key_v1'); sessionStorage.removeItem('test_mp_anthropic_key_v1'); }catch(e){} // purge de la clé API de l'ancien import photo
+let freezes=[]; // périodes de gel : {id,title,start,end,color,opacity,full}
+const FREEZE_DEFAULT_COLOR='#BDBDBD', FREEZE_DEFAULT_OPACITY=0.5;
 let dragLaneId=null, dragTaskId=null, laneDragIdx=null;
 
 window._colorPickerActive = false;
@@ -807,11 +886,11 @@ function _saveUIPrefs() {
     palette: document.getElementById('palette-body')?.classList.contains('collapsed'),
     models: document.getElementById('models-body')?.classList.contains('collapsed')
   };
-  localStorage.setItem('MP_UI_PREFS', JSON.stringify(prefs));
+  localStorage.setItem('TEST_MP_UI_PREFS', JSON.stringify(prefs));
 }
 
 function restoreUIPrefs() {
-  const data = localStorage.getItem('MP_UI_PREFS');
+  const data = localStorage.getItem('TEST_MP_UI_PREFS');
   if (!data) return; // au premier lancement, c'est null, les classes HTML "collapsed" restent actives
   try {
     const prefs = JSON.parse(data);
@@ -835,7 +914,7 @@ function changeTaskSize(d){ taskRH=Math.max(8,Math.min(80,taskRH+d)); document.g
 function changeJalonSize(d){ jalonRH=Math.max(4,Math.min(80,jalonRH+d)); document.getElementById('jalon-size-val').textContent=jalonRH; saveState(); renderTimeline(); }
 function changeJalonS(d){ jalonS=Math.max(5,Math.min(20,jalonS+d)); document.getElementById('jalon-s-val').textContent=jalonS; saveState(); renderTimeline(); }
 let dashLen=4, dashGap=3, flagPadH=6, flagPadV=6, lineW=2, flagW=1.5, flagRowGap=7;
-let laneFontSize=13, taskFontSize=11, taskDateFontSize=8, jalonFontSize=11, jalonDateFontSize=8, todayFontSize=8, tMajorFontSize=10, tMinorUpFontSize=8.5, tMinorLblFontSize=9, headerH=36, sepMargin=0, phaseGap=6, timelineGap=8, todayArrowSize=4;
+let laneColW=130, laneFontSize=13, taskFontSize=11, taskDateFontSize=8, jalonFontSize=11, jalonDateFontSize=8, todayFontSize=8, tMajorFontSize=10, tMinorUpFontSize=8.5, tMinorLblFontSize=9, headerH=36, sepMargin=0, phaseGap=6, timelineGap=8, todayArrowSize=4;
 function applyHeaderHeight(){ document.body.style.setProperty('--header-h', headerH+'px'); }
 function changeSepMargin(d){
   sepMargin=Math.max(0,Math.min(30,sepMargin+d));
@@ -972,8 +1051,6 @@ function showPhaseShiftMenu(laneId,x,y){
 }
 function hidePhaseShiftMenu(){ phaseShiftMenu.style.display='none'; phaseShiftMenuLaneId=null; }
 function shiftLaneTasksByDays(laneId,days){ const lane=getLane(laneId); if(!lane) return; lane.tasks.forEach(t=>{ if(t.start) t.start=fmt(new Date(parseD(t.start).getTime()+days*86400000)); if(t.end) t.end=fmt(new Date(parseD(t.end).getTime()+days*86400000)); }); saveState(); renderData(); renderTimeline(); }
-function addMonthsSafe(dateStr,months){ const d=parseD(dateStr); const day=d.getDate(); const res=new Date(d.getFullYear(), d.getMonth()+months, 1); const maxDay=new Date(res.getFullYear(), res.getMonth()+1, 0).getDate(); res.setDate(Math.min(day,maxDay)); return fmt(res); }
-function shiftLaneTasksByMonths(laneId,months){ const lane=getLane(laneId); if(!lane) return; lane.tasks.forEach(t=>{ if(t.start) t.start=addMonthsSafe(t.start,months); if(t.end) t.end=addMonthsSafe(t.end,months); }); saveState(); renderData(); renderTimeline(); }
 function shiftPhasePlanningDays(days){ if(phaseShiftMenuLaneId!==null) shiftLaneTasksByDays(phaseShiftMenuLaneId,days); }
 function shiftPhasePlanningWeeks(weeks){ if(phaseShiftMenuLaneId!==null) shiftLaneTasksByDays(phaseShiftMenuLaneId,weeks*7); }
 function getPhaseMinDate(lane){
@@ -1154,6 +1231,7 @@ window.moveLaneDown = function(idx) {
 };
 
 function renderData(){
+  renderFreezePanel();
   const _vd=document.getElementById('view-data'); const _st=_vd?_vd.scrollTop:0; const _hasScroll=_vd&&_vd.scrollHeight>_vd.clientHeight;
   const c=document.getElementById('lanes'); c.innerHTML='';
   lanes.forEach((lane,li)=>{
@@ -1301,14 +1379,16 @@ function tlPointerUp(){ try{if(tlDrag){renderData();tlDrag=null;}
 function computeLaneRows(lane){
   const rows=[];
   const showTaches = document.getElementById('chk-taches-master')?.checked !== false;
-
-  if(!showTaches) {
-    return rows;
-  }
-
   const showJalonRow = document.getElementById('chk-jalon-lines')?.checked !== false;
   const jalonLinePos = document.querySelector('input[name="jalon-line-pos"]:checked')?.value || 'last';
   const jalons=lane.tasks.filter(t=>t.type==='J');
+
+  if(!showTaches) {
+    // Barres de tâches masquées : on conserve la ligne des losanges de jalons de la phase
+    if(showJalonRow && jalons.length>0) rows.push({tasks:jalons});
+    if(rows.length===0) rows.push({tasks:[]}); // phase sans jalon : on garde sa ligne pour qu'elle reste visible
+    return rows;
+  }
 
   if(showJalonRow && jalons.length>0 && jalonLinePos === 'first') {
     rows.push({tasks:jalons});
@@ -1355,6 +1435,7 @@ function renderTimeline(){
   lanes.forEach(l=>l.tasks.forEach(t=>{ if(t.start)allD.push(parseD(t.start)); if(t.end)allD.push(parseD(t.end)); }));
   if(!allD.length){ svg.setAttribute('viewBox','0 0 600 80'); svg.appendChild(el('text',{x:300,y:45,'text-anchor':'middle',fill:'#aaa','font-size':14},'Aucune tâche définie, appuyez sur + Phase ou chargez un modèle prédéfinis')); return; }
 
+  freezes.forEach(f=>{ if(validISO(f.start)&&validISO(f.end)){ allD.push(parseD(f.start)); allD.push(parseD(f.end)); } });
   const rawMin=new Date(Math.min(...allD)), rawMax=new Date(Math.max(...allD));
   const startOpt=+document.querySelector('input[name="tl-start"]:checked').value;
   const endOpt=+document.querySelector('input[name="tl-end"]:checked').value;
@@ -1364,7 +1445,11 @@ function renderTimeline(){
   const totalDays=Math.round((maxD-minD)/86400000)+1;
   const tlSvgParent = document.getElementById("tl-svg").parentElement;
   const showLaneCol=document.getElementById('chk-lane-col')?.checked??true;
-  const LL=showLaneCol?130:0, TH=showTimeBar?52:0, RH=taskRH;
+  const LL=showLaneCol?laneColW:0, TH0=showTimeBar?52:0, RH=taskRH;
+  const _fzList=freezes.filter(f=>validISO(f.start)&&validISO(f.end));
+  const fzFont=Math.max(7,Math.round(taskFontSize*0.72)); // police réduite pour les périodes de gel
+  const FZ=_fzList.length?fzFont+8:0; // bandeau des gels, en bas de la barre de temps
+  const TH=TH0+FZ;
   let _measuredW = 0;
   if(tlSvgParent){
     _measuredW = tlSvgParent.clientWidth || tlSvgParent.getBoundingClientRect().width || 0;
@@ -1449,14 +1534,14 @@ function renderTimeline(){
 
   // Graduations
   if(showTimeBar){
-    function majorTick(x,lbl){ if(x<LL||x>VW)return; timebarGroup.appendChild(el('line',{x1:x,y1:MA,x2:x,y2:MA+TH,stroke:'rgba(255,255,255,0.28)','stroke-width':1})); timebarGroup.appendChild(el('text',{x:x+3,y:MA+14,fill:'white','font-size':tMajorFontSize,'font-weight':'bold'},lbl)); timebarGroup.appendChild(el('line',{x1:x,y1:MA+TH,x2:x,y2:VH,stroke:'rgba(0,0,0,0.04)','stroke-width':1})); }
-    function minorTickUp(x,lbl){ if(x<LL||x>VW)return; timebarGroup.appendChild(el('line',{x1:x,y1:MA+28,x2:x,y2:MA+TH,stroke:'rgba(255,255,255,0.12)','stroke-width':1})); if(lbl) timebarGroup.appendChild(upTxt(x,MA+TH-3,lbl)); }
-    function minorTickLbl(x,lbl){ if(x<LL||x>VW)return; timebarGroup.appendChild(el('line',{x1:x,y1:MA+26,x2:x,y2:MA+TH,stroke:'rgba(255,255,255,0.12)','stroke-width':1})); if(lbl) timebarGroup.appendChild(el('text',{x:x+2,y:MA+TH-4,fill:'rgba(255,255,255,0.65)','font-size':tMinorLblFontSize},lbl)); }
+    function majorTick(x,lbl){ if(x<LL||x>VW)return; timebarGroup.appendChild(el('line',{x1:x,y1:MA,x2:x,y2:MA+TH0,stroke:'rgba(255,255,255,0.28)','stroke-width':1})); timebarGroup.appendChild(el('text',{x:x+3,y:MA+14,fill:'white','font-size':tMajorFontSize,'font-weight':'bold'},lbl)); timebarGroup.appendChild(el('line',{x1:x,y1:MA+TH,x2:x,y2:VH,stroke:'rgba(0,0,0,0.04)','stroke-width':1})); }
+    function minorTickUp(x,lbl){ if(x<LL||x>VW)return; timebarGroup.appendChild(el('line',{x1:x,y1:MA+28,x2:x,y2:MA+TH0,stroke:'rgba(255,255,255,0.12)','stroke-width':1})); if(lbl) timebarGroup.appendChild(upTxt(x,MA+TH0-3,lbl)); }
+    function minorTickLbl(x,lbl){ if(x<LL||x>VW)return; timebarGroup.appendChild(el('line',{x1:x,y1:MA+26,x2:x,y2:MA+TH0,stroke:'rgba(255,255,255,0.12)','stroke-width':1})); if(lbl) timebarGroup.appendChild(el('text',{x:x+2,y:MA+TH0-4,fill:'rgba(255,255,255,0.65)','font-size':tMinorLblFontSize},lbl)); }
     let cur;
     if(sc===0){ cur=new Date(minD);cur.setDate(1); while(cur<=maxD){majorTick(dX(cur),MONTHS[cur.getMonth()]+' '+cur.getFullYear());cur.setMonth(cur.getMonth()+1);} cur=new Date(minD); while(cur<=maxD){const dn=cur.getDate();if(dn%dayStep===0||dn===1)minorTickUp(dX(cur),String(dn).padStart(2,'0'));cur.setDate(cur.getDate()+1);}
-    } else if(sc===1){ timebarGroup.appendChild(el('text',{x:LL+6,y:MA+14,fill:'white','font-size':10,'font-weight':'bold'},'Jours')); {const isoSD=new Date(rawMin);isoSD.setHours(0,0,0,0); cur=new Date(minD); while(cur<=maxD){const x=dX(cur);const dn=Math.round((cur-isoSD)/86400000)+1;if(x>=LL&&x<=VW&&dn>=1&&(dn===1||dn%dayStep===0)){timebarGroup.appendChild(el('line',{x1:x,y1:MA+28,x2:x,y2:MA+TH,stroke:'rgba(255,255,255,0.1)','stroke-width':1}));timebarGroup.appendChild(upTxt(x,MA+TH-3,String(dn).padStart(2,'0')));} cur.setDate(cur.getDate()+1);}}
-    } else if(sc===2){ cur=new Date(minD);cur.setDate(1); while(cur<=maxD){majorTick(dX(cur),MONTHS[cur.getMonth()]+' '+cur.getFullYear());cur.setMonth(cur.getMonth()+1);} cur=new Date(minD);const dow=cur.getDay();cur.setDate(cur.getDate()-(dow===0?6:dow-1)); const weekTicks=[]; while(cur<=maxD){const x2=dX(cur),lx2=x2<LL?LL+2:x2+2; if(x2<=VW){ weekTicks.push({x2,lx2,label:'S'+String(isoWeek(cur)).padStart(2,'0')}); } cur.setDate(cur.getDate()+7);} const approxWeekLblW=tMinorLblFontSize*3.6; weekTicks.forEach((wk,i)=>{ if(wk.x2>=LL) timebarGroup.appendChild(el('line',{x1:wk.x2,y1:MA+26,x2:wk.x2,y2:MA+TH,stroke:'rgba(255,255,255,0.12)','stroke-width':1})); const overlapFirst=i===0 && weekTicks[1] && (wk.lx2 + approxWeekLblW > weekTicks[1].lx2); timebarGroup.appendChild(el('text',{x:wk.lx2,y:overlapFirst ? MA+TH-14 : MA+TH-4,fill:'rgba(255,255,255,0.65)','font-size':tMinorLblFontSize},wk.label)); });
-    } else if(sc===3){ timebarGroup.appendChild(el('text',{x:LL+6,y:MA+14,fill:'white','font-size':10,'font-weight':'bold'},'Semaines')); {const isoSW=new Date(rawMin);isoSW.setHours(0,0,0,0);const dwr=isoSW.getDay();isoSW.setDate(isoSW.getDate()-(dwr===0?6:dwr-1)); cur=new Date(minD);const dow2=cur.getDay();cur.setDate(cur.getDate()-(dow2===0?6:dow2-1)); while(cur<=maxD){const wn=Math.round((cur-isoSW)/86400000/7)+1;if(wn>=1){const wx=dX(cur);const lx=wx<LL?LL+2:wx+2;if(wx<=VW){if(wx>=LL)timebarGroup.appendChild(el('line',{x1:wx,y1:MA+26,x2:wx,y2:MA+TH,stroke:'rgba(255,255,255,0.12)','stroke-width':1}));timebarGroup.appendChild(el('text',{x:lx,y:MA+TH-4,fill:'rgba(255,255,255,0.65)','font-size':tMinorLblFontSize},'S'+String(wn).padStart(2,'0')));}} cur.setDate(cur.getDate()+7);}}
+    } else if(sc===1){ timebarGroup.appendChild(el('text',{x:LL+6,y:MA+14,fill:'white','font-size':10,'font-weight':'bold'},'Jours')); {const isoSD=new Date(rawMin);isoSD.setHours(0,0,0,0); cur=new Date(minD); while(cur<=maxD){const x=dX(cur);const dn=Math.round((cur-isoSD)/86400000)+1;if(x>=LL&&x<=VW&&dn>=1&&(dn===1||dn%dayStep===0)){timebarGroup.appendChild(el('line',{x1:x,y1:MA+28,x2:x,y2:MA+TH0,stroke:'rgba(255,255,255,0.1)','stroke-width':1}));timebarGroup.appendChild(upTxt(x,MA+TH0-3,String(dn).padStart(2,'0')));} cur.setDate(cur.getDate()+1);}}
+    } else if(sc===2){ cur=new Date(minD);cur.setDate(1); while(cur<=maxD){majorTick(dX(cur),MONTHS[cur.getMonth()]+' '+cur.getFullYear());cur.setMonth(cur.getMonth()+1);} cur=new Date(minD);const dow=cur.getDay();cur.setDate(cur.getDate()-(dow===0?6:dow-1)); const weekTicks=[]; while(cur<=maxD){const x2=dX(cur),lx2=x2<LL?LL+2:x2+2; if(x2<=VW){ weekTicks.push({x2,lx2,label:'S'+String(isoWeek(cur)).padStart(2,'0')}); } cur.setDate(cur.getDate()+7);} const approxWeekLblW=tMinorLblFontSize*3.6; weekTicks.forEach((wk,i)=>{ if(wk.x2>=LL) timebarGroup.appendChild(el('line',{x1:wk.x2,y1:MA+26,x2:wk.x2,y2:MA+TH0,stroke:'rgba(255,255,255,0.12)','stroke-width':1})); const overlapFirst=i===0 && weekTicks[1] && (wk.lx2 + approxWeekLblW > weekTicks[1].lx2); timebarGroup.appendChild(el('text',{x:wk.lx2,y:overlapFirst ? MA+TH0-14 : MA+TH0-4,fill:'rgba(255,255,255,0.65)','font-size':tMinorLblFontSize},wk.label)); });
+    } else if(sc===3){ timebarGroup.appendChild(el('text',{x:LL+6,y:MA+14,fill:'white','font-size':10,'font-weight':'bold'},'Semaines')); {const isoSW=new Date(rawMin);isoSW.setHours(0,0,0,0);const dwr=isoSW.getDay();isoSW.setDate(isoSW.getDate()-(dwr===0?6:dwr-1)); cur=new Date(minD);const dow2=cur.getDay();cur.setDate(cur.getDate()-(dow2===0?6:dow2-1)); while(cur<=maxD){const wn=Math.round((cur-isoSW)/86400000/7)+1;if(wn>=1){const wx=dX(cur);const lx=wx<LL?LL+2:wx+2;if(wx<=VW){if(wx>=LL)timebarGroup.appendChild(el('line',{x1:wx,y1:MA+26,x2:wx,y2:MA+TH0,stroke:'rgba(255,255,255,0.12)','stroke-width':1}));timebarGroup.appendChild(el('text',{x:lx,y:MA+TH0-4,fill:'rgba(255,255,255,0.65)','font-size':tMinorLblFontSize},'S'+String(wn).padStart(2,'0')));}} cur.setDate(cur.getDate()+7);}}
     } else if(sc===4){ cur=new Date(minD);cur.setDate(1); while(cur<=maxD){majorTick(dX(cur),MONTHS[cur.getMonth()]+' '+cur.getFullYear());cur.setMonth(cur.getMonth()+1);}
     } else if(sc===5){ const isoSM=new Date(rawMin.getFullYear(),rawMin.getMonth(),1); cur=new Date(minD);cur.setDate(1); while(cur<=maxD){const mn=Math.round((cur.getFullYear()-isoSM.getFullYear())*12+(cur.getMonth()-isoSM.getMonth()))+1;if(mn>=1)majorTick(dX(cur),'Mois '+String(mn).padStart(2,'0'));cur.setMonth(cur.getMonth()+1);}
     } else if(sc===6){ cur=new Date(minD);cur.setDate(1);cur.setMonth(Math.floor(cur.getMonth()/3)*3); while(cur<=maxD){majorTick(dX(cur),'T'+(Math.floor(cur.getMonth()/3)+1)+' '+cur.getFullYear());cur.setMonth(cur.getMonth()+3);}
@@ -1535,7 +1620,7 @@ function renderTimeline(){
   lanes.forEach((lane,li)=>{
     const rows=laneRowsCache[lane.id];
     if (rows.length === 0) return; // Ignore completely if no rows
-    const laneH=rows.reduce((s,row)=>s+getRowH(row),0);
+    const laneH=Math.max(rows.reduce((s,row)=>s+getRowH(row),0), String(lane.name||'').split('\n').length*Math.max(12,laneFontSize+2)+8);
     const lc=lane.color||'#2c3e50';
     svg.appendChild(el('rect',{x:LL,y:rowY,width:VW-LL,height:laneH,fill:li%2===0?'#fff':'#f8f8f8'}));
     const laneColorRect=el('rect',{x:0,y:rowY,width:LL,height:laneH,fill:lc});
@@ -1966,9 +2051,9 @@ function renderTimeline(){
         if (showCircle) todayMarker=el('circle',{cx:tx,cy:dy,r:6,fill:todaylineColor,stroke:'white','stroke-width':2});
 
         if (showArrow) {
-          todayLabel=el('text',{x:tx,y:MA+(TH/2)+1,'text-anchor':'middle',fill:'white','font-size':todayFontSize,'font-weight':'bold'},"aujourd'hui");
+          todayLabel=el('text',{x:tx,y:MA+(TH0/2)+1,'text-anchor':'middle',fill:'white','font-size':todayFontSize,'font-weight':'bold'},"aujourd'hui");
           svg.appendChild(todayLabel);
-          const labelY = MA+(TH/2)+1;
+          const labelY = MA+(TH0/2)+1;
           const aw = todayArrowSize;
           const arrowTop = labelY + 5;
           const arrowTip = labelY + 5 + Math.round(todayArrowSize*0.8);
@@ -1988,6 +2073,27 @@ function renderTimeline(){
     svg.appendChild(flagGroup);
   }
   svg.appendChild(timebarGroup);
+  if(FZ>0){
+    const fzY=MA+TH0; // bandeau de gel : bas de la barre de temps
+    const fzG=document.createElementNS(NS,'g'); fzG.setAttribute('id','freeze-row-group');
+    const fzOver=document.createElementNS(NS,'g'); fzOver.setAttribute('id','freeze-overlay-group'); fzOver.setAttribute('pointer-events','none');
+    _fzList.forEach(f=>{
+      const x1=Math.max(LL,dX(f.start)), x2=Math.min(VW,dX(f.end)+PPD);
+      if(x2<=x1) return;
+      const col=f.color||FREEZE_DEFAULT_COLOR, op=Math.min(1,Math.max(0.05,+f.opacity||FREEZE_DEFAULT_OPACITY));
+      const band=el('rect',{x:x1,y:fzY+2,width:x2-x1,height:FZ-4,rx:2,fill:col,'fill-opacity':op,stroke:col,'stroke-opacity':Math.min(1,op+0.45),'stroke-width':1});
+      const tip=document.createElementNS(NS,'title'); tip.textContent=(f.title||'Gel')+' : '+f.start+' → '+f.end+(f.full?' (toute la hauteur)':''); band.appendChild(tip);
+      band.style.cursor='grab'; band.addEventListener('pointerdown',ev=>fzPointerDown(ev,'move',f.id));
+      fzG.appendChild(band);
+      const hw=Math.min(6,(x2-x1)/3);
+      [['resize-l',x1],['resize-r',x2-hw]].forEach(([m,hx])=>{ const hd=el('rect',{x:hx,y:fzY+2,width:hw,height:FZ-4,fill:'#ffffff','fill-opacity':0.001}); hd.style.cursor='ew-resize'; hd.addEventListener('pointerdown',ev=>fzPointerDown(ev,m,f.id)); fzG.appendChild(hd); });
+      const lbl=(f.title||'').trim();
+      if(lbl && lbl.length*fzFont*0.58 < (x2-x1)-6) fzG.appendChild(el('text',{x:(x1+x2)/2,y:fzY+FZ/2+fzFont*0.35,'text-anchor':'middle','font-size':fzFont,'font-weight':'bold',fill:showTimeBar?'#fff':'#263238','pointer-events':'none'},lbl));
+      if(f.full) fzOver.appendChild(el('rect',{x:x1,y:MA+TH,width:x2-x1,height:Math.max(0,VH-(MA+TH)),fill:col,'fill-opacity':op})); // sous la barre de temps
+    });
+    svg.appendChild(fzG);
+    if(fzOver.childNodes.length) svg.appendChild(fzOver);
+  }
   if(todayLabel) svg.appendChild(todayLabel);
   if(typeof _delGroups!=='undefined') _delGroups.forEach(g=>svg.appendChild(g));
   if(todayMarker) svg.appendChild(todayMarker);
@@ -2063,6 +2169,7 @@ function resetDefaults() {
   document.getElementById('chk-todayline').checked = true;
   const cTachesMaster=document.getElementById('chk-taches-master'); if(cTachesMaster) cTachesMaster.checked = true;
   const cLaneCol=document.getElementById('chk-lane-col'); if(cLaneCol) cLaneCol.checked = true;
+  laneColW=130; { const e=document.getElementById('lane-col-w'); if(e) e.value=130; const v=document.getElementById('lane-col-w-val'); if(v) v.textContent=130; }
   document.getElementById('chk-dates').checked = true;
   document.getElementById('chk-task-label').checked = true;
   const r1=document.querySelector('input[name="dates-pos"][value="right"]'); if(r1) r1.checked=true;
@@ -2165,6 +2272,7 @@ function importModelByIndex(idx) {
     lid   = state.lid   || 1;
     tid   = state.tid   || 1;
     jalonColorIdx = state.jalonColorIdx || 0;
+    freezes = sanitizeFreezes(state.freezes);
     if (state.sidebar) restoreSidebar(state.sidebar);
 
     const titleEl = document.getElementById('planning-title');
@@ -2205,7 +2313,7 @@ function checkModelsFolder() {
 function clearMacroPlanning() {
   if (!confirm('Etes vous sur ?')) return;
   try { _saveUIPrefs(); } catch(e){}
-  lanes = []; lid = 1; tid = 1; jalonColorIdx = 0;
+  lanes = []; freezes = []; lid = 1; tid = 1; jalonColorIdx = 0;
   const titleEl = document.getElementById('planning-title');
   if (titleEl) titleEl.value = 'Macro-planning projet';
   saveState();
@@ -2213,10 +2321,10 @@ function clearMacroPlanning() {
 }
 
 // ═══ PERSISTANCE localStorage ════════════════════════════════
-const MP_PLANNING_KEY = 'mp_planning_v1';
-const MP_SETTINGS_KEY = 'mp_settings_v1';
-const MP_HISTORY_UNDO_KEY = 'mp_history_undo_v1';
-const MP_HISTORY_REDO_KEY = 'mp_history_redo_v1';
+const MP_PLANNING_KEY = 'test_mp_planning_v1';
+const MP_SETTINGS_KEY = 'test_mp_settings_v1';
+const MP_HISTORY_UNDO_KEY = 'test_mp_history_undo_v1';
+const MP_HISTORY_REDO_KEY = 'test_mp_history_redo_v1';
 const HISTORY_LIMIT = 10;
 let historySuspend = false;
 let historyCurrentRaw = '';
@@ -2225,6 +2333,7 @@ function cloneJSON(v){ return JSON.parse(JSON.stringify(v)); }
 function getPlanningSnapshot(){
   return {
     lanes: cloneJSON(lanes || []),
+    freezes: cloneJSON(freezes || []),
     lid: lid || 1,
     tid: tid || 1,
     jalonColorIdx: jalonColorIdx || 0,
@@ -2272,6 +2381,7 @@ function applyPlanningSnapshot(snapshot){
   lid = snapshot?.lid || 1;
   tid = snapshot?.tid || 1;
   jalonColorIdx = snapshot?.jalonColorIdx || 0;
+  freezes = sanitizeFreezes(snapshot?.freezes);
   const titleEl=document.getElementById('planning-title');
   if(titleEl && snapshot && typeof snapshot.planningTitle === 'string') titleEl.value = snapshot.planningTitle;
   renderData();
@@ -2349,6 +2459,7 @@ function saveState() {
     defaultTaskJalonPalette,
     showTitle: document.getElementById('chk-title')?.checked,
     showLaneCol: document.getElementById('chk-lane-col')?.checked,
+    laneColW,
     showTimeBar: document.getElementById('chk-timebar')?.checked,
     showTodayLine: document.getElementById('chk-todayline')?.checked,
     showTodayLineVline: document.getElementById('chk-todayline-vline')?.checked,
@@ -2369,7 +2480,7 @@ function saveState() {
     activeTab: document.getElementById('view-data').classList.contains('active') ? 'data' : 'timeline',
     menuOpen: !document.querySelector('.app-body')?.classList.contains('sidebar-closed'),
   };
-  const state = { lanes, lid, tid, jalonColorIdx, sidebar };
+  const state = { lanes, freezes, lid, tid, jalonColorIdx, sidebar };
   const raw = JSON.stringify(state);
   localStorage.setItem(MP_PLANNING_KEY, raw);
   localStorage.setItem(MP_SETTINGS_KEY, JSON.stringify(sidebar));
@@ -2417,6 +2528,7 @@ saveState._orig = function(){
       defaultTaskJalonPalette,
       showTitle: document.getElementById('chk-title')?.checked,
       showLaneCol: document.getElementById('chk-lane-col')?.checked,
+      laneColW,
       showTimeBar: document.getElementById('chk-timebar')?.checked,
       showTodayLine: document.getElementById('chk-todayline')?.checked,
       showTodayLineVline: document.getElementById('chk-todayline-vline')?.checked,
@@ -2437,7 +2549,7 @@ saveState._orig = function(){
       activeTab: document.getElementById('view-data').classList.contains('active') ? 'data' : 'timeline',
       menuOpen: !document.querySelector('.app-body')?.classList.contains('sidebar-closed'),
     };
-    const state = { lanes, lid, tid, jalonColorIdx, sidebar };
+    const state = { lanes, freezes, lid, tid, jalonColorIdx, sidebar };
     const raw = JSON.stringify(state);
     localStorage.setItem(MP_PLANNING_KEY, raw);
     localStorage.setItem(MP_SETTINGS_KEY, JSON.stringify(sidebar));
@@ -2494,6 +2606,7 @@ function restoreSidebar(s) {
   // Checkboxes affichage
   setChk('chk-title', s.showTitle);
   setChk('chk-lane-col', s.showLaneCol);
+  laneColW=Math.min(400,Math.max(80,+s.laneColW||130)); { const e=document.getElementById('lane-col-w'); if(e) e.value=laneColW; const v=document.getElementById('lane-col-w-val'); if(v) v.textContent=laneColW; }
   setChk('chk-timebar', s.showTimeBar);
   setChk('chk-todayline', s.showTodayLine);
   setChk('chk-todayline-vline', s.showTodayLineVline ?? true);
@@ -2580,6 +2693,7 @@ function loadState() {
     lid   = state.lid   || 1;
     tid   = state.tid   || 1;
     jalonColorIdx = state.jalonColorIdx || 0;
+    freezes = sanitizeFreezes(state.freezes);
     const _sb = state.sidebar || JSON.parse(localStorage.getItem(MP_SETTINGS_KEY) || 'null');
     if (_sb) restoreSidebar(_sb);
     else applyHeaderHeight();
@@ -2597,6 +2711,7 @@ function loadState() {
         lid   = state.lid   || 1;
         tid   = state.tid   || 1;
         jalonColorIdx = state.jalonColorIdx || 0;
+        freezes = sanitizeFreezes(state.freezes);
         // Ne pas écraser les réglages sidebar lors d'un import planning
         return { tab: state.sidebar?.activeTab || 'timeline' };
       }
@@ -2611,11 +2726,11 @@ function resetAll() {
   localStorage.removeItem(MP_PLANNING_KEY);
   localStorage.removeItem(MP_PLANNING_KEY + '_backup');
   localStorage.removeItem(MP_SETTINGS_KEY);
-  localStorage.setItem('MP_UI_PREFS', JSON.stringify({ depPlanning:true, afficher:true, sizes:true, timeScale:true, palette:true, models:true }));
+  localStorage.setItem('TEST_MP_UI_PREFS', JSON.stringify({ depPlanning:true, afficher:true, sizes:true, timeScale:true, palette:true, models:true }));
   localStorage.removeItem(MP_HISTORY_UNDO_KEY);
   localStorage.removeItem(MP_HISTORY_REDO_KEY);
   // Supprimer la base IndexedDB des raccourcis puis recharger
-  const delReq = indexedDB.deleteDatabase('MacroPlanningDirs');
+  const delReq = indexedDB.deleteDatabase('MacroPlanningDirsTest');
   delReq.onsuccess = () => location.reload();
   delReq.onerror = () => location.reload();
   delReq.onblocked = () => location.reload();
@@ -2725,7 +2840,7 @@ function exportJSON(customFileName) {
   saveState();
   const _full = JSON.parse(localStorage.getItem(MP_PLANNING_KEY) || '{}');
   // Export planning uniquement (sans réglages sidebar)
-  const state = { lanes: _full.lanes || [], lid: _full.lid || lid, tid: _full.tid || tid, jalonColorIdx: _full.jalonColorIdx || jalonColorIdx };
+  const state = { lanes: _full.lanes || [], freezes: _full.freezes || [], lid: _full.lid || lid, tid: _full.tid || tid, jalonColorIdx: _full.jalonColorIdx || jalonColorIdx };
   const content = JSON.stringify(state, null, 2);
   const defaultName = customFileName || ('planning_' + new Date().toISOString().slice(0, 10) + '.json');
 
@@ -2778,7 +2893,7 @@ async function promptSaveSettingsJSON() {
   const fileName = `reglages_v${yyyy}-${mm}-${dd}(${hh}h${min}).json`;
   const _sidebar = JSON.parse(raw);
   delete _sidebar.planningTitle;  // Le titre appartient au planning, pas aux réglages
-  const uiPrefs = (()=>{ try { return JSON.parse(localStorage.getItem('MP_UI_PREFS') || 'null'); } catch(e){ return null; } })();
+  const uiPrefs = (()=>{ try { return JSON.parse(localStorage.getItem('TEST_MP_UI_PREFS') || 'null'); } catch(e){ return null; } })();
   const payload = JSON.stringify({ _type: 'mp_settings_v1', sidebar: _sidebar, uiPrefs, raccourcis }, null, 2);
   const blob = new Blob([payload], { type: 'application/json' });
   const a = document.createElement('a');
@@ -2810,7 +2925,7 @@ async function importSettingsJSON(event) {
       if (_currentTitle) { const pt = document.getElementById('planning-title'); if (pt) pt.value = _currentTitle; }
       localStorage.setItem(MP_SETTINGS_KEY, JSON.stringify(sidebar));
       if (parsed.uiPrefs && typeof parsed.uiPrefs === 'object') {
-        localStorage.setItem('MP_UI_PREFS', JSON.stringify(parsed.uiPrefs));
+        localStorage.setItem('TEST_MP_UI_PREFS', JSON.stringify(parsed.uiPrefs));
         restoreUIPrefs();
       }
       saveState();
@@ -2856,12 +2971,13 @@ function importJSON(event) {
     try {
       const state = JSON.parse(e.target.result);
       // Import planning uniquement — les réglages sidebar sont préservés
-      const planningOnly = { lanes: state.lanes || [], lid: state.lid || 1, tid: state.tid || 1, jalonColorIdx: state.jalonColorIdx || 0 };
+      const planningOnly = { lanes: state.lanes || [], freezes: sanitizeFreezes(state.freezes), lid: state.lid || 1, tid: state.tid || 1, jalonColorIdx: state.jalonColorIdx || 0 };
       localStorage.setItem(MP_PLANNING_KEY, JSON.stringify(planningOnly));
       lanes = planningOnly.lanes;
       lid   = planningOnly.lid;
       tid   = planningOnly.tid;
       jalonColorIdx = planningOnly.jalonColorIdx;
+      freezes = planningOnly.freezes;
       renderData();
       requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ renderTimeline(); }); });
       updateT0Display();
@@ -2908,7 +3024,7 @@ document.getElementById('planning-title').addEventListener('input', () => saveSt
 
 // ═══ LICENCE / CODE D'ACCÈS ══════════════════════════════════
 const LICENSE_SALT_HEX       = '1d5e541f44212d2859002620beca760b';
-const LICENSE_SESSION_KEY    = 'mp_license_sess_v2'; // v2 = chiffré AES-GCM
+const LICENSE_SESSION_KEY    = 'test_mp_license_sess_v2'; // v2 = chiffré AES-GCM
 const LICENSE_SESSION_TTL    = 30 * 60 * 1000; // 30 minutes en ms
 const LICENSE_ITERATIONS     = 310000;
 const LICENSE_HASH_HEX       = 'c911133b858c5fcb47f3311201404c3341eadce6e7cd637317198712595464bc';
@@ -2953,7 +3069,7 @@ async function verifyEncryptedSession() {
   const raw = localStorage.getItem(LICENSE_SESSION_KEY);
   if (!raw) return false;
   // Récupérer la clé depuis la session de dérivation mémorisée en mémoire
-  const lk = sessionStorage.getItem('_lk');
+  const lk = sessionStorage.getItem('test__lk');
   if (!lk) return false;
   try {
     const {iv, data} = JSON.parse(raw);
@@ -2963,13 +3079,13 @@ async function verifyEncryptedSession() {
     const ts = parseInt(new TextDecoder().decode(plain));
     if ((Date.now() - ts) < LICENSE_SESSION_TTL) return true;
     // Session expirée → nettoyage
-    localStorage.removeItem(LICENSE_SESSION_KEY); sessionStorage.removeItem('_lk');
-    sessionStorage.removeItem('_lk');
+    localStorage.removeItem(LICENSE_SESSION_KEY); sessionStorage.removeItem('test__lk');
+    sessionStorage.removeItem('test__lk');
     return false;
   } catch {
     // Déchiffrement impossible = token forgé ou clé différente
     localStorage.removeItem(LICENSE_SESSION_KEY);
-    sessionStorage.removeItem('_lk');
+    sessionStorage.removeItem('test__lk');
     return false;
   }
 }
@@ -2996,7 +3112,7 @@ async function checkLicense() {
   try {
     const hash = await deriveLicenseHash(input.value.trim());
     if (hash === LICENSE_HASH_HEX) {
-      sessionStorage.setItem('_lk', input.value.trim()); // clé en mémoire volatile
+      sessionStorage.setItem('test__lk', input.value.trim()); // clé en mémoire volatile
       await storeEncryptedSession(input.value.trim());    // token chiffré AES-GCM
       document.getElementById('license-overlay').style.display = 'none';
       input.value = '';
@@ -3019,7 +3135,7 @@ async function checkLicense() {
 const IDB_STORE = 'local_dirs';
 function getDB() {
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open('MacroPlanningDirs', 1);
+    const req = indexedDB.open('MacroPlanningDirsTest', 1);
     req.onupgradeneeded = e => {
       e.target.result.createObjectStore(IDB_STORE);
     };
@@ -3286,10 +3402,10 @@ function formatBytesAuto(bytes){
 function bytesUtf8(str){ return new TextEncoder().encode(str || '').length; }
 function setDiag(id, value){ const el=document.getElementById(id); if(el) el.textContent=value; }
 async function refreshMemoryDiagnostic(){
-  const undoRaw = localStorage.getItem('mp_history_undo_v1') || '';
-  const redoRaw = localStorage.getItem('mp_history_redo_v1') || '';
-  const planningRaw = localStorage.getItem('mp_planning_v1') || '';
-  const settingsRaw = localStorage.getItem('mp_settings_v1') || '';
+  const undoRaw = localStorage.getItem('test_mp_history_undo_v1') || '';
+  const redoRaw = localStorage.getItem('test_mp_history_redo_v1') || '';
+  const planningRaw = localStorage.getItem('test_mp_planning_v1') || '';
+  const settingsRaw = localStorage.getItem('test_mp_settings_v1') || '';
   let undoCount = 0, redoCount = 0;
   try { undoCount = JSON.parse(undoRaw || '[]').length || 0; } catch(e){}
   try { redoCount = JSON.parse(redoRaw || '[]').length || 0; } catch(e){}
@@ -3462,12 +3578,245 @@ window.addEventListener('resize', () => {
     renderTimeline();
   }
 });
+// ═══ EXPORT SVG / PDF VECTORIELS ═════════════════════════════
+function exportFileBase(){
+  const raw=(document.getElementById('planning-title')?.value||'macro-planning').trim();
+  const safe=raw.replace(/[\/:*?"<>|]+/g,'-').replace(/\s+/g,' ').slice(0,80)||'macro-planning';
+  return safe+' - '+fmt(new Date());
+}
+function buildExportSvg(){
+  if(lanes.length) renderTimeline(); // rendu frais : fiable même si l'onglet Données est actif, et sans boutons de survol
+  const src=document.getElementById('tl-svg');
+  if(!src||!src.getAttribute('viewBox')||!lanes.length) return null;
+  const vb=src.getAttribute('viewBox').trim().split(/\s+/).map(Number);
+  const W=Math.max(1,vb[2]||1000), H=Math.max(1,vb[3]||600);
+  const clone=src.cloneNode(true);
+  clone.querySelectorAll('foreignObject').forEach(n=>n.remove());   // sélecteurs de couleur interactifs
+  clone.querySelectorAll('g[style*="cursor"]').forEach(n=>n.remove()); // boutons au survol (supprimer, dupliquer, ...)
+  const NS='http://www.w3.org/2000/svg';
+  const withTitle=document.getElementById('chk-title')?.checked!==false;
+  const title=(document.getElementById('planning-title')?.value||'').trim();
+  const T=(withTitle&&title)?44:0;
+  const out=document.createElementNS(NS,'svg');
+  out.setAttribute('xmlns',NS);
+  out.setAttribute('viewBox','0 0 '+W+' '+(H+T));
+  out.setAttribute('width',W); out.setAttribute('height',H+T);
+  out.setAttribute('font-family',"'Segoe UI', Arial, Helvetica, sans-serif");
+  const bg=document.createElementNS(NS,'rect'); bg.setAttribute('width',W); bg.setAttribute('height',H+T); bg.setAttribute('fill','#ffffff'); out.appendChild(bg);
+  if(T){ const t=document.createElementNS(NS,'text'); t.setAttribute('x',W/2); t.setAttribute('y',29); t.setAttribute('text-anchor','middle'); t.setAttribute('font-size',20); t.setAttribute('font-weight','bold'); t.setAttribute('fill','#2c3e50'); t.textContent=title; out.appendChild(t); }
+  const g=document.createElementNS(NS,'g'); g.setAttribute('transform','translate(0,'+T+')');
+  while(clone.firstChild) g.appendChild(clone.firstChild);
+  out.appendChild(g);
+  return { svg:out, W, H:H+T };
+}
+function exportSVG(){
+  const b=buildExportSvg(); if(!b){ showToast('Rien à exporter : planning vide.'); return; }
+  const xml='<?xml version="1.0" encoding="UTF-8"?>\n'+new XMLSerializer().serializeToString(b.svg);
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([xml],{type:'image/svg+xml;charset=utf-8'}));
+  a.download=exportFileBase()+'.svg';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+  showToast('SVG vectoriel exporté.');
+}
+function cleanupPrint(){ document.getElementById('print-root')?.remove(); document.getElementById('print-page-style')?.remove(); }
+function preparePrintDoc(){
+  const b=buildExportSvg(); if(!b) return false;
+  cleanupPrint();
+  const land=b.W>=b.H, svg=b.svg;
+  svg.removeAttribute('width'); svg.removeAttribute('height'); svg.setAttribute('preserveAspectRatio','xMidYMid meet');
+  svg.style.cssText='display:block;width:100%;height:auto;max-height:'+(land?'192mm':'279mm');
+  const root=document.createElement('div'); root.id='print-root'; root.appendChild(svg); document.body.appendChild(root);
+  const st=document.createElement('style'); st.id='print-page-style'; st.textContent='@page{size:A4 '+(land?'landscape':'portrait')+';margin:8mm}'; document.head.appendChild(st);
+  return true;
+}
+function exportPDF(){
+  if(!preparePrintDoc()){ showToast('Rien à exporter : planning vide.'); return; }
+  window.addEventListener('afterprint',cleanupPrint,{once:true});
+  showToast('Choisissez « Enregistrer au format PDF » dans la fenêtre d\'impression.');
+  setTimeout(()=>window.print(),350);
+}
+
+// ═══ GELS : ÉDITION DIRECTE DANS LE GANTT ════════════════════
+let fzDrag=null;
+function fzPointerDown(e,mode,id){
+  if(e.button!==0) return;
+  const f=freezes.find(x=>x.id===id); if(!f) return;
+  closeFreezePop();
+  fzDrag={mode,id,startX:e.clientX,origStart:f.start,origEnd:f.end,moved:false};
+  e.preventDefault(); e.stopPropagation();
+  document.addEventListener('pointermove',fzPointerMove,{passive:false});
+  document.addEventListener('pointerup',fzPointerUp);
+}
+function fzPointerMove(e){
+  if(!fzDrag) return; e.preventDefault();
+  const dx=e.clientX-fzDrag.startX;
+  if(Math.abs(dx)>3) fzDrag.moved=true;
+  if(!fzDrag.moved) return;
+  const f=freezes.find(x=>x.id===fzDrag.id); if(!f) return;
+  const scale=document.getElementById('tl-svg').getBoundingClientRect().width/tlVW;
+  const dd=Math.round(dx/scale*tlDPP);
+  if(fzDrag.mode==='move'){ f.start=fmt(addDays(parseD(fzDrag.origStart),dd)); f.end=fmt(addDays(parseD(fzDrag.origEnd),dd)); }
+  else if(fzDrag.mode==='resize-r'){ const ne=fmt(addDays(parseD(fzDrag.origEnd),dd)); if(ne>=f.start) f.end=ne; }
+  else if(fzDrag.mode==='resize-l'){ const ns=fmt(addDays(parseD(fzDrag.origStart),dd)); if(ns<=f.end) f.start=ns; }
+  renderTimeline();
+}
+function fzPointerUp(e){
+  document.removeEventListener('pointermove',fzPointerMove); document.removeEventListener('pointerup',fzPointerUp);
+  const d=fzDrag; fzDrag=null; if(!d) return;
+  if(d.moved){ renderFreezePanel(); afterFreezeChange(); } else openFreezePop(d.id,e.clientX,e.clientY);
+}
+function closeFreezePop(){ document.getElementById('freeze-pop')?.remove(); document.removeEventListener('mousedown',fzPopOutside,true); }
+function fzPopOutside(e){ const p=document.getElementById('freeze-pop'); if(p&&!p.contains(e.target)) closeFreezePop(); }
+function openFreezePop(id,x,y){
+  closeFreezePop();
+  const f=freezes.find(v=>v.id===id); if(!f) return;
+  const d=document.createElement('div'); d.id='freeze-pop';
+  d.style.cssText='position:fixed;z-index:10050;background:#fff;border:1px solid #ddd;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:12px;width:280px;max-width:calc(100vw - 16px);box-sizing:border-box;font-size:12px;color:#333;';
+  const pc=Math.round(f.opacity*100);
+  const di='style="width:100%;box-sizing:border-box;padding:4px 6px;border:1px solid #ccc;border-radius:5px;font-size:12px;"';
+  d.innerHTML='<div style="font-weight:700;margin-bottom:8px;">Période de gel</div>'
+    +'<input type="text" value="'+esc(f.title)+'" placeholder="Titre..." oninput="setFreeze('+id+',\'title\',this.value)" style="width:100%;box-sizing:border-box;padding:5px 7px;border:1px solid #ccc;border-radius:5px;margin-bottom:8px;font-size:12px;">'
+    +'<div style="display:flex;gap:8px;margin-bottom:4px;">'
+    +'<label style="flex:1;min-width:0;">Début<input type="date" id="fz-start" value="'+f.start+'" onchange="fzPopDate('+id+',\'start\',this.value)" '+di+'></label>'
+    +'<label style="flex:1;min-width:0;">Fin<input type="date" id="fz-end" value="'+f.end+'" onchange="fzPopDate('+id+',\'end\',this.value)" '+di+'></label></div>'
+    +'<div id="fz-dur" style="color:#777;font-size:11px;margin-bottom:8px;">Durée : '+dur(f.start,f.end)+'</div>'
+    +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><label style="display:flex;align-items:center;gap:6px;">Couleur <input type="color" value="'+f.color+'" onchange="setFreeze('+id+',\'color\',this.value)" style="width:30px;height:22px;padding:0;border:1px solid #ccc;"></label></div>'
+    +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><span>Opacité</span><input type="range" min="5" max="100" step="5" value="'+pc+'" oninput="document.getElementById(\'fz-op\').textContent=this.value+\'%\';setFreeze('+id+',\'opacity\',this.value)" style="flex:1;min-width:0;"><span id="fz-op" style="min-width:34px;text-align:right;">'+pc+'%</span></div>'
+    +'<label style="display:block;margin-bottom:10px;cursor:pointer;"><input type="checkbox" '+(f.full?'checked':'')+' onchange="setFreeze('+id+',\'full\',this.checked)"> Sur toute la hauteur</label>'
+    +'<div style="display:flex;justify-content:space-between;"><button type="button" onclick="delFreeze('+id+');closeFreezePop()" style="padding:5px 10px;border:1px solid #e0b4b4;background:#fff5f5;color:#c0392b;border-radius:6px;cursor:pointer;font-size:12px;">Supprimer</button><button type="button" onclick="closeFreezePop()" style="padding:5px 14px;border:1px solid #ccc;background:#fff;border-radius:6px;cursor:pointer;font-size:12px;">OK</button></div>';
+  document.body.appendChild(d);
+  const r=d.getBoundingClientRect();
+  d.style.left=Math.max(8,Math.min(x-20,window.innerWidth-r.width-8))+'px';
+  d.style.top=((y+14+r.height>window.innerHeight-8)?Math.max(8,y-r.height-14):y+14)+'px';
+  setTimeout(()=>document.addEventListener('mousedown',fzPopOutside,true),0);
+}
+function fzPopDate(id,k,v){
+  if(!validISO(v)) return;
+  setFreeze(id,k,v);
+  const f=freezes.find(x=>x.id===id); if(!f) return;
+  const a=document.getElementById('fz-start'), b=document.getElementById('fz-end'), d=document.getElementById('fz-dur');
+  if(a) a.value=f.start; if(b) b.value=f.end; if(d) d.textContent='Durée : '+dur(f.start,f.end);
+}
+function addFreezeFromGantt(){
+  addFreeze();
+  showToast('Période de gel ajoutée : cliquez dessus dans la barre de temps pour la modifier.');
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeFreezePop(); });
+
+// ═══ MENU EXPORT ═════════════════════════════════════════════
+function closeExportMenu(){
+  const m=document.getElementById('export-menu'), b=document.getElementById('btn-export');
+  if(m) m.style.display='none'; if(b) b.setAttribute('aria-expanded','false');
+}
+function toggleExportMenu(ev){
+  if(ev) ev.stopPropagation();
+  const m=document.getElementById('export-menu'), b=document.getElementById('btn-export'); if(!m||!b) return;
+  if(m.style.display!=='none'){ closeExportMenu(); return; }
+  const r=b.getBoundingClientRect();
+  m.style.display='flex';
+  m.style.top=(r.bottom+6)+'px';
+  m.style.left=Math.max(4,Math.round(r.left+r.width/2-m.offsetWidth/2))+'px';
+  b.setAttribute('aria-expanded','true');
+}
+document.addEventListener('pointerdown',e=>{ if(!e.target.closest('#export-menu') && !e.target.closest('#btn-export')) closeExportMenu(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeExportMenu(); });
+window.addEventListener('resize',closeExportMenu);
+
+// ═══ MODE D'INTERFACE : SIMPLIFIÉ / AVANCÉ ═══════════════════
+const UIMODE_KEY='test_mp_uimode_v1';
+function applyUIMode(mode){
+  mode=(mode==='advanced')?'advanced':'simple';
+  document.querySelector('.sidebar')?.classList.toggle('simple',mode==='simple');
+  document.getElementById('uimode-simple')?.classList.toggle('active',mode==='simple');
+  document.getElementById('uimode-adv')?.classList.toggle('active',mode==='advanced');
+  try{ localStorage.setItem(UIMODE_KEY,mode); }catch(e){}
+}
+try{ applyUIMode(localStorage.getItem(UIMODE_KEY)||'simple'); }catch(e){ applyUIMode('simple'); }
+
+// ═══ PÉRIODES DE GEL ═════════════════════════════════════════
+function validISO(s){ if(typeof s!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false; const d=parseD(s); return !isNaN(d) && fmt(d)===s; }
+function sanitizeFreezes(arr){
+  const out=[]; let maxId=0;
+  (Array.isArray(arr)?arr:[]).forEach(f=>{
+    if(!f||!validISO(f.start)||!validISO(f.end)) return;
+    let st=f.start, en=f.end; if(en<st){ const x=st; st=en; en=x; }
+    const id=(Number.isFinite(+f.id)&&+f.id>0&&!out.some(o=>o.id===+f.id))?+f.id:null;
+    out.push({ id, title:String(f.title||'').slice(0,120), start:st, end:en,
+      color:/^#[0-9a-fA-F]{6}$/.test(f.color||'')?f.color:FREEZE_DEFAULT_COLOR,
+      opacity:Math.min(1,Math.max(0.05,+f.opacity||FREEZE_DEFAULT_OPACITY)), full:!!f.full });
+    if(id) maxId=Math.max(maxId,id);
+  });
+  out.forEach(o=>{ if(!o.id) o.id=++maxId; });
+  return out;
+}
+function nextFreezeId(){ return freezes.reduce((m,f)=>Math.max(m,+f.id||0),0)+1; }
+function addFreeze(preset){
+  let base=null;
+  lanes.forEach(l=>(l.tasks||[]).forEach(t=>{ if(validISO(t.start)){ const d=parseD(t.start); if(!base||d<base) base=d; } }));
+  const st=base||new Date(); const en=addDays(st,13);
+  freezes.push(Object.assign({ id:nextFreezeId(), title:'Gel', start:fmt(st), end:fmt(en), color:FREEZE_DEFAULT_COLOR, opacity:FREEZE_DEFAULT_OPACITY, full:false }, preset||{}));
+  renderFreezePanel(); afterFreezeChange();
+}
+function delFreeze(id){ freezes=freezes.filter(f=>f.id!==id); renderFreezePanel(); afterFreezeChange(); }
+function setFreeze(id,k,v){
+  const f=freezes.find(x=>x.id===id); if(!f) return;
+  if(k==='opacity') v=Math.min(1,Math.max(0.05,(+v||0)/100));
+  if((k==='start'||k==='end') && !validISO(v)) return;
+  f[k]=v;
+  if(k==='start' && f.end<f.start) f.end=f.start;
+  if(k==='end' && f.end<f.start) f.start=f.end;
+  if(k==='start'||k==='end') renderFreezePanel();
+  afterFreezeChange();
+}
+function afterFreezeChange(){
+  saveState();
+  if(document.getElementById('view-timeline').classList.contains('active')) renderTimeline();
+}
+function renderFreezePanel(){
+  const host=document.getElementById('freezes-panel'); if(!host) return;
+  const ae=document.activeElement;
+  if(ae && host.contains(ae) && ae.tagName==='TEXTAREA') return; // ne pas casser la saisie en cours
+  const HDR='#607D8B';
+  let h='<div class="phase">'
+    +'<div class="phase-header" style="background:'+HDR+'">'
+    +'<span style="position:absolute;left:12px;top:8px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#fff;"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"/><path d="M2 12h20"/><path d="m5 5 14 14"/><path d="m19 5-14 14"/></svg></span>'
+    +'<div class="phase-title-wrap"><div class="phase-title-display">Périodes de gel</div></div>'
+    +'<button class="btn-add-task" style="width:auto;padding:2px 7px;font-size:11px;color:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.4);border-radius:4px;" title="Ajouter une période de gel" onclick="event.stopPropagation();addFreeze()">＋</button>'
+    +'</div>';
+  if(!freezes.length){
+    h+='<div style="padding:12px 14px;font-size:12px;color:#888;">Aucune période de gel. Cliquez sur ＋ pour en ajouter : elles s\'affichent dans le bas de la barre de temps.</div>';
+  } else {
+    h+='<table><thead><tr>'
+      +'<th style="width:16px"></th><th style="width:24%">Titre</th><th>Couleur</th><th>Durée</th><th>Début</th><th>Fin</th><th>Opacité %</th><th>Toute la hauteur</th><th></th>'
+      +'</tr></thead><tbody>';
+    freezes.forEach(f=>{
+      const pc=Math.round(f.opacity*100);
+      h+='<tr class="task-row">'
+        +'<td><span class="drag-handle" style="visibility:hidden">⠿</span></td>'
+        +'<td><textarea rows="1" placeholder="Titre..." oninput="setFreeze('+f.id+',\'title\',this.value);autoResize(this)">'+esc(f.title)+'</textarea></td>'
+        +'<td><div class="type-badge"><input type="color" value="'+f.color+'" onchange="setFreeze('+f.id+',\'color\',this.value)"/></div></td>'
+        +'<td>'+dur(f.start,f.end)+'</td>'
+        +'<td><input type="date" value="'+f.start+'" onchange="setFreeze('+f.id+',\'start\',this.value)"/></td>'
+        +'<td><input type="date" value="'+f.end+'" onchange="setFreeze('+f.id+',\'end\',this.value)"/></td>'
+        +'<td><div class="pct-wrap"><input type="number" style="width:52px" min="5" max="100" step="5" value="'+pc+'" onchange="setFreeze('+f.id+',\'opacity\',this.value);this.value=Math.round(freezes.find(x=>x.id==='+f.id+').opacity*100);this.nextElementSibling.firstElementChild.style.width=this.value+\'%\'"/><div class="pct-bar"><div class="pct-fill" style="width:'+pc+'%"></div></div></div></td>'
+        +'<td><input type="checkbox" style="width:auto;cursor:pointer;" '+(f.full?'checked':'')+' onchange="setFreeze('+f.id+',\'full\',this.checked)"/></td>'
+        +'<td><button class="btn-del-row" onclick="delFreeze('+f.id+')" title="Supprimer">🗑</button></td>'
+        +'</tr>';
+    });
+    h+='</tbody></table>';
+  }
+  host.innerHTML=h+'</div>';
+  host.querySelectorAll('textarea').forEach(t=>autoResize(t));
+}
+
+
 </script>
 
 <!-- ═══ MODAL CHECK DOSSIER ═══════════════════════════════════ -->
 <div id="modal-save-overlay" style="display:none;position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
   <div style="background:#fff;border-radius:10px;padding:24px;width:380px;box-shadow:0 8px 32px rgba(0,0,0,0.22);position:relative;">
-    <h3 style="margin:0 0 16px 0;font-size:15px;color:#2c3e50;">💾 Nom de la sauvegarde</h3>
+    <h3 style="margin:0 0 16px 0;font-size:15px;color:#2c3e50;">Nom de la sauvegarde</h3>
     <input type="text" id="save-filename-input" onkeydown="if(event.key==='Enter') confirmSaveJSON()" style="width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #ccc;border-radius:5px;font-size:13px;margin-bottom:20px;outline:none;" onfocus="this.style.borderColor='#c0392b'" onblur="this.style.borderColor='#ccc'">
     <div style="display:flex;justify-content:flex-end;gap:10px;">
       <button onclick="document.getElementById('modal-save-overlay').style.display='none'" style="padding:7px 16px;border-radius:5px;border:1px solid #ccc;cursor:pointer;font-size:12px;background:#f5f5f5;font-weight:600;color:#555;">Annuler</button>
@@ -3484,7 +3833,7 @@ window.addEventListener('resize', () => {
   </style>
   <div style="background:#fff;border-radius:10px;padding:24px;width:400px;height:420px;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,0.22);position:relative;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin:0 0 10px 0;flex-shrink:0;">
-        <h3 id="modal-folder-title" style="margin:0;font-size:15px;color:#2c3e50;">🗂 Choisir un modèle</h3>
+        <h3 id="modal-folder-title" style="margin:0;font-size:15px;color:#2c3e50;">Choisir un modèle</h3>
         <select id="modal-sort-select" onchange="if(window.CURRENT_MODELS_FETCH) _renderModelsList(window.CURRENT_MODELS_FETCH, window.CURRENT_MODELS_SOURCE);" style="font-size:11px;padding:4px 8px;border:1px solid #ccc;border-radius:4px;outline:none;cursor:pointer;background:#f9f9f9;color:#333;margin-left:10px;">
           <option value="az">A-Z</option>
           <option value="za">Z-A</option>
