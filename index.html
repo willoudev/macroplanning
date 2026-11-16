@@ -663,6 +663,7 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
         <li>Nouveau : sélection d'activités par encerclement dans le Gantt (tracer un cadre sur le fond d'une phase ; Maj + clic sur une activité pour l'ajouter ou la retirer). La sélection reste dans une seule phase.</li>
         <li>Nouveau : fenêtre « Déplacement de tâches » pour les activités sélectionnées (tâches et jalons) : sauts de ±1 jour, ±1 semaine, ±1 mois, option « Jours ouvrés », changement de la date de début du groupe. La fenêtre s'affiche sous la dernière activité sélectionnée et reste déplaçable.</li>
         <li>Nouveau : déplacement groupé à la souris, horizontalement, en faisant glisser une barre sélectionnée ; les dates sont recalculées en direct avec une info-bulle (décalage et nouvelle date de début). Un déplacement = une étape d'annulation ; les périodes de gel ne bougent pas.</li>
+              <li>Correction des exports (PNG, SVG, PDF) : la hauteur exportée tient compte des phases à noms sur plusieurs lignes, les dernières phases ne sont plus coupées en bas.</li>
       </ul>
       <div style="font-weight:700;margin:8px 0 6px;">V4.3:</div>
       <ul style="margin:0 0 10px 18px;padding:0;">
@@ -1553,7 +1554,9 @@ function renderTimeline(){
   const bothBottom=(showDates&&datesPos==='bottom'&&showTaskLabel&&taskLabelPos==='bottom');
   const BOTTOM_H=bothBottom?Math.max(DATE_BOTTOM_H,LABEL_BOTTOM_H):DATE_BOTTOM_H+LABEL_BOTTOM_H;
   function getRowH(row){ const hasJalon=row.tasks.some(t=>t.type==='J'); return (hasJalon?jalonRH:taskRH)+BOTTOM_H; }
-  let totalH=0; lanes.forEach(l=>{ laneRowsCache[l.id].forEach(row=>{ totalH+=getRowH(row); }); });
+  // Hauteur d'une phase : somme de ses lignes, au minimum de quoi afficher son nom (même formule que le dessin des phases)
+  const laneHeightOf=l=>Math.max(laneRowsCache[l.id].reduce((a,row)=>a+getRowH(row),0), String(l.name||'').split('\n').length*Math.max(12,laneFontSize+2)+8);
+  let totalH=0; lanes.forEach(l=>{ totalH+=laneHeightOf(l); });
   const VH=TOTAL_TOP+totalH+(totalRows>0 ? Math.max(0,lanes.length-1)*phaseGap : 0)+1;
 
   svg.setAttribute('viewBox',`0 0 ${VW} ${VH}`);
@@ -1661,7 +1664,7 @@ function renderTimeline(){
   lanes.forEach((lane,li)=>{
     const rows=laneRowsCache[lane.id];
     if (rows.length === 0) return; // Ignore completely if no rows
-    const laneH=Math.max(rows.reduce((s,row)=>s+getRowH(row),0), String(lane.name||'').split('\n').length*Math.max(12,laneFontSize+2)+8);
+    const laneH=laneHeightOf(lane);
     const lc=lane.color||'#2c3e50';
     svg.appendChild(el('rect',{x:LL,y:rowY,width:VW-LL,height:laneH,fill:li%2===0?'#fff':'#f8f8f8'}));
     const laneColorRect=el('rect',{x:0,y:rowY,width:LL,height:laneH,fill:lc});
