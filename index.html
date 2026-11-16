@@ -405,7 +405,7 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
           <span style="font-size:12px;">Espace entre phases</span>
           <div style="display:flex;align-items:center;gap:4px;">
             <button onclick="changePhaseGap(-1)" style="width:18px;height:18px;font-size:11px;border-radius:3px;border:1px solid #ccc;background:#fff;cursor:pointer;padding:0;line-height:1;">−</button>
-            <span id="phase-gap-val" style="font-size:11px;color:#c0392b;font-weight:700;min-width:22px;text-align:center;">6</span>
+            <span id="phase-gap-val" style="font-size:11px;color:#c0392b;font-weight:700;min-width:22px;text-align:center;">1</span>
             <button onclick="changePhaseGap(1)" style="width:18px;height:18px;font-size:11px;border-radius:3px;border:1px solid #ccc;background:#fff;cursor:pointer;padding:0;line-height:1;">+</button>
           </div>
         </div>
@@ -947,7 +947,7 @@ function changeTaskSize(d){ taskRH=Math.max(8,Math.min(80,taskRH+d)); document.g
 function changeJalonSize(d){ jalonRH=Math.max(4,Math.min(80,jalonRH+d)); document.getElementById('jalon-size-val').textContent=jalonRH; saveState(); renderTimeline(); }
 function changeJalonS(d){ jalonS=Math.max(5,Math.min(20,jalonS+d)); document.getElementById('jalon-s-val').textContent=jalonS; saveState(); renderTimeline(); }
 let dashLen=4, dashGap=3, flagPadH=6, flagPadV=6, lineW=2, flagW=1.5, flagRowGap=7;
-let laneColW=130, laneFontSize=13, taskFontSize=11, taskDateFontSize=8, jalonFontSize=11, jalonDateFontSize=8, todayFontSize=8, tMajorFontSize=10, tMinorUpFontSize=8.5, tMinorLblFontSize=9, headerH=36, sepMargin=0, phaseGap=6, timelineGap=8, todayArrowSize=4;
+let laneColW=130, laneFontSize=13, taskFontSize=11, taskDateFontSize=8, jalonFontSize=11, jalonDateFontSize=8, todayFontSize=8, tMajorFontSize=10, tMinorUpFontSize=8.5, tMinorLblFontSize=9, headerH=36, sepMargin=0, phaseGap=1, timelineGap=8, todayArrowSize=4;
 function applyHeaderHeight(){ document.body.style.setProperty('--header-h', headerH+'px'); }
 function changeSepMargin(d){
   sepMargin=Math.max(0,Math.min(30,sepMargin+d));
@@ -2189,7 +2189,7 @@ function resetAfficherDefaults(){
 }
 function resetSizesDefaults(){
   taskRH = 24; jalonRH = 16; jalonS = 10; flagPadH = 6; flagPadV = 6; flagRowGap = 7; flagW = 1.5; lineW = 2; dashLen = 4; dashGap = 3; laneFontSize = 13; taskFontSize = 11; taskDateFontSize = 8; jalonFontSize = 11; jalonDateFontSize = 8; todayFontSize = 8; tMajorFontSize = 10; tMinorUpFontSize = 8.5; tMinorLblFontSize = 9; headerH = 36; sepMargin = 0; todayArrowSize = 4;
-  phaseGap = 6; timelineGap = 8;
+  phaseGap = 1; timelineGap = 8;
   document.getElementById('sep-margin-val').textContent=0; document.documentElement.style.setProperty('--sep-margin','0px'); document.getElementById('header-h-val').textContent=36; applyHeaderHeight(); const tas=document.getElementById('today-arrow-size-val'); if(tas) tas.textContent=4;
   const pairs=[['task-size-val',24],['jalon-size-val',16],['jalon-s-val',10],['flag-padh-val',6],['flag-padv-val',6],['lbl-flag-row-gap',7],['lbl-flag-w',1.5],['lbl-line-w',2],['dash-dash-val',4],['dash-gap-val',3],['lane-font-size-val',13],['task-font-size-val',11],['task-date-font-size-val',8],['jalon-font-size-val',11],['jalon-date-font-size-val',8],['today-font-size-val',8],['tmajor-font-size-val',10],['tminor-up-font-size-val',8.5],['tminor-lbl-font-size-val',9],['header-h-val',36],['sep-margin-val',0],['today-arrow-size-val',4],['phase-gap-val',6],['timeline-gap-val',8]];
   pairs.forEach(([id,v])=>{ const el=document.getElementById(id); if(el) el.textContent=v; });
@@ -2225,7 +2225,7 @@ function resetDefaults() {
   tMinorUpFontSize = 8.5; const tminup = document.getElementById('tminor-up-font-size-val'); if(tminup) tminup.textContent = 8.5;
   tMinorLblFontSize = 9; const tminlbl = document.getElementById('tminor-lbl-font-size-val'); if(tminlbl) tminlbl.textContent = 9;
   headerH = 48; document.getElementById('header-h-val').textContent = 48;
-  phaseGap = 6; const pgv=document.getElementById('phase-gap-val'); if(pgv) pgv.textContent = 6;
+  phaseGap = 1; const pgv=document.getElementById("phase-gap-val"); if(pgv) pgv.textContent = 1;
   timelineGap = 8; const tgv=document.getElementById('timeline-gap-val'); if(tgv) tgv.textContent = 8;
 
    applyHeaderHeight();
@@ -2656,7 +2656,9 @@ function restoreSidebar(s) {
 
    applyHeaderHeight();
   sepMargin = s.sepMargin ?? 0; document.getElementById('sep-margin-val').textContent = sepMargin; document.documentElement.style.setProperty('--sep-margin',sepMargin+'px');
-  phaseGap = s.phaseGap ?? 6; const pgv=document.getElementById('phase-gap-val'); if(pgv) pgv.textContent = phaseGap;
+  phaseGap = s.phaseGap ?? 1; const pgv=document.getElementById('phase-gap-val'); if(pgv) pgv.textContent = phaseGap;
+  // Migration unique v4.4 : l'espace entre phases passe à 1 une fois, puis le choix de l'utilisateur est conservé
+  try{ if(!localStorage.getItem('test_mp_phasegap_v44')){ phaseGap=1; if(pgv) pgv.textContent=1; localStorage.setItem('test_mp_phasegap_v44','1'); } }catch(_){}
   timelineGap = s.timelineGap ?? 8; const tgv=document.getElementById('timeline-gap-val'); if(tgv) tgv.textContent = timelineGap;
   todayArrowSize = s.todayArrowSize ?? 4; const tas=document.getElementById('today-arrow-size-val'); if(tas) tas.textContent = todayArrowSize;
   const appBody=document.querySelector('.app-body');
