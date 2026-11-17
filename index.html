@@ -683,6 +683,7 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
         <li>Nouveau : la largeur de la colonne des phases se règle directement dans le Gantt, en faisant glisser son bord droit ; le curseur « Largeur » des réglages est supprimé.</li>
         <li>Correction : le redimensionnement de la colonne des phases n'ajoute plus de mois dans le futur et ne bloque plus les options « Échelle de temps / Fin de la barre » (l'extension automatique n'est plus mémorisée).</li>
         <li>Nouveau : Affichage / Jalons / « Type de drapeau » : « Grand drapeau » (actuel) ou « Petit drapeau » (fanion avec le nom et la date JJ/MM/AAAA à droite, sans cadre) ; le choix est mémorisé.</li>
+        <li>Nouveau : la sélection pour « Déplacement de tâches » peut porter sur plusieurs phases (encerclement sur plusieurs phases, ou Maj + clic sur des activités de phases différentes) ; le déplacement groupé et le décalage s'appliquent à toutes.</li>
         <li>Nouveau : Global / Jalons : réglage de la distance entre le mât et le petit drapeau (2 px par défaut). Les réglages largeur / hauteur / épaisseur des drapeaux s'appliquent aussi au petit drapeau.</li>
         <li>Correction : les réglages « Espace / longueur des tirets » et « Distance mât / petit drapeau » s'appliquent immédiatement au Gantt (ils activent « Trait pointillé jalon » ou le petit drapeau si besoin).</li>
         <li>Nouveau : le bouton de conversion JSON ouvre un menu avec deux choix : « Convertir une image en JSON » et « Convertir un costmodel en JSON » (nouvel onglet).</li>
@@ -1443,7 +1444,7 @@ function commitEdit(){ if(!editorCtx){editorWrap.style.display='none';return;} c
 
 // ═══ TIMELINE POINTER DRAG ═══════════════════════════════════
 let tlDrag=null, tlDPP=1, tlVW=1000;
-function tlPointerDown(e,mode,laneId,taskId){ if(e.button!==0)return; const t=getTask(laneId,taskId); if(!t)return; if(e.shiftKey||e.ctrlKey||e.metaKey){ e.preventDefault(); e.stopPropagation(); toggleSelected(laneId,taskId); return; } tlDrag={mode,laneId,taskId,startX:e.clientX,origStart:t.start,origEnd:t.end}; if((mode==='move'||mode==='move-milestone')&&tlSel.laneId===laneId&&tlSel.ids.has(taskId)&&tlSel.ids.size>1){ tlDrag.mode='move-group'; tlDrag.origs=getLane(laneId).tasks.filter(x=>tlSel.ids.has(x.id)).map(x=>({id:x.id,start:x.start,end:x.end})); } e.preventDefault(); e.stopPropagation(); document.addEventListener('pointermove',tlPointerMove,{passive:false}); document.addEventListener('pointerup',tlPointerUp); }
+function tlPointerDown(e,mode,laneId,taskId){ if(e.button!==0)return; const t=getTask(laneId,taskId); if(!t)return; if(e.shiftKey||e.ctrlKey||e.metaKey){ e.preventDefault(); e.stopPropagation(); toggleSelected(laneId,taskId); return; } tlDrag={mode,laneId,taskId,startX:e.clientX,origStart:t.start,origEnd:t.end}; if((mode==='move'||mode==='move-milestone')&&selHas(laneId,taskId)&&tlSel.keys.size>1){ tlDrag.mode='move-group'; tlDrag.origs=selItems().map(i=>({laneId:i.lane.id,id:i.task.id,start:i.task.start,end:i.task.end})); } e.preventDefault(); e.stopPropagation(); document.addEventListener('pointermove',tlPointerMove,{passive:false}); document.addEventListener('pointerup',tlPointerUp); }
 function tlPointerMove(e){
   if(!tlDrag)return; e.preventDefault();
   const svgEl=document.getElementById('tl-svg');
@@ -1451,8 +1452,7 @@ function tlPointerMove(e){
   const dd=Math.round((e.clientX-tlDrag.startX)/scale*tlDPP);
   const t=getTask(tlDrag.laneId,tlDrag.taskId); if(!t)return;
   if(tlDrag.mode==='move-group'){
-    const lane=getLane(tlDrag.laneId); if(!lane) return;
-    tlDrag.origs.forEach(o=>{ const x=lane.tasks.find(k=>k.id===o.id); if(!x) return; if(o.start) x.start=fmt(addDays(parseD(o.start),dd)); if(o.end) x.end=fmt(addDays(parseD(o.end),dd)); syncDataFields(tlDrag.laneId,o.id); });
+    tlDrag.origs.forEach(o=>{ const x=getTask(o.laneId,o.id); if(!x) return; if(o.start) x.start=fmt(addDays(parseD(o.start),dd)); if(o.end) x.end=fmt(addDays(parseD(o.end),dd)); syncDataFields(o.laneId,o.id); });
     tlDrag.dd=dd; renderTimeline();
     const tip=document.getElementById('drag-tip'); const first=tlDrag.origs.filter(o=>o.start).map(o=>parseD(o.start).getTime());
     if(tip&&first.length){ const ns=addDays(new Date(Math.min(...first)),dd); tip.textContent=(dd>0?'+':dd<0?'−':'')+Math.abs(dd)+' j · début '+String(ns.getDate()).padStart(2,'0')+'/'+String(ns.getMonth()+1).padStart(2,'0')+'/'+ns.getFullYear(); tip.style.left=(e.clientX+16)+'px'; tip.style.top=(e.clientY-30)+'px'; tip.style.display='block'; }
@@ -1975,7 +1975,7 @@ function renderTimeline(){
             if(showDashDot) svg.appendChild(el('line',{x1:mx,y1:MA+TH,x2:mx,y2:my-s,stroke:tc,'stroke-width':1.5,'stroke-dasharray':`${dashLen},${dashGap}`}));
             const poly=el('polygon',{points:`${mx},${my-s} ${mx+s},${my} ${mx},${my+s} ${mx-s},${my}`,fill:tc,stroke:'white','stroke-width':2,cursor:'grab'});
             poly.style.touchAction='none';
-            poly.addEventListener('pointerdown',e=>{ if(e.button!==0)return; e.preventDefault(); e.stopPropagation(); if(e.shiftKey||e.ctrlKey||e.metaKey){ toggleSelected(lane.id,task.id); return; } const d=task.end||task.start; tlDrag={mode:'move-milestone',laneId:lane.id,taskId:task.id,startX:e.clientX,origStart:d,origEnd:d}; if(tlSel.laneId===lane.id&&tlSel.ids.has(task.id)&&tlSel.ids.size>1){ tlDrag.mode='move-group'; tlDrag.origs=lane.tasks.filter(x=>tlSel.ids.has(x.id)).map(x=>({id:x.id,start:x.start,end:x.end})); } document.addEventListener('pointermove',tlPointerMove,{passive:false}); document.addEventListener('pointerup',tlPointerUp); });
+            poly.addEventListener('pointerdown',e=>{ if(e.button!==0)return; e.preventDefault(); e.stopPropagation(); if(e.shiftKey||e.ctrlKey||e.metaKey){ toggleSelected(lane.id,task.id); return; } const d=task.end||task.start; tlDrag={mode:'move-milestone',laneId:lane.id,taskId:task.id,startX:e.clientX,origStart:d,origEnd:d}; if(selHas(lane.id,task.id)&&tlSel.keys.size>1){ tlDrag.mode='move-group'; tlDrag.origs=selItems().map(i=>({laneId:i.lane.id,id:i.task.id,start:i.task.start,end:i.task.end})); } document.addEventListener('pointermove',tlPointerMove,{passive:false}); document.addEventListener('pointerup',tlPointerUp); });
             svg.appendChild(poly);
             _taskBoxes.push({laneId:lane.id,taskId:task.id,x0:mx-s,x1:mx+s,y0:my-s,y1:my+s});
           }
@@ -3871,29 +3871,25 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeFreezePop(); 
 
 // ═══ SÉLECTION PAR ENCERCLEMENT + DÉCALAGE ════════════════════
 let tlBands=[], tlBoxes=[], tlLLv=0, tlVBw=1000, tlVBh=600;
-const tlSel={ laneId:null, ids:new Set(), anchor:null, manual:false };
+const tlSel={ keys:new Set(), anchor:null, manual:false };
 const SVGNS='http://www.w3.org/2000/svg';
-function selPrune(){
-  if(tlSel.laneId===null) return;
-  const lane=getLane(tlSel.laneId);
-  if(!lane){ tlSel.laneId=null; tlSel.ids.clear(); return; }
-  [...tlSel.ids].forEach(id=>{ if(!lane.tasks.some(t=>t.id===id)) tlSel.ids.delete(id); });
-  if(!tlSel.ids.size) tlSel.laneId=null;
-}
+const selK=(l,t)=>l+':'+t;
+const selHas=(l,t)=>tlSel.keys.has(selK(l,t));
+function selItems(){ const out=[]; lanes.forEach(l=>l.tasks.forEach(t=>{ if(selHas(l.id,t.id)) out.push({lane:l,task:t}); })); return out; }
+function selPrune(){ if(!tlSel.keys.size) return; const ok=new Set(selItems().map(i=>selK(i.lane.id,i.task.id))); [...tlSel.keys].forEach(k=>{ if(!ok.has(k)) tlSel.keys.delete(k); }); }
 function toggleSelected(laneId,taskId){
-  if(tlSel.laneId!==laneId){ tlSel.ids.clear(); tlSel.laneId=laneId; tlSel.manual=false; }
-  if(tlSel.ids.has(taskId)) tlSel.ids.delete(taskId); else tlSel.ids.add(taskId);
-  if(!tlSel.ids.size) tlSel.laneId=null;
+  const k=selK(laneId,taskId);
+  if(tlSel.keys.has(k)) tlSel.keys.delete(k); else tlSel.keys.add(k);
   renderSelectionUI();
 }
-function clearSelection(){ tlSel.laneId=null; tlSel.ids.clear(); tlSel.anchor=null; tlSel.manual=false; renderSelectionUI(); }
+function clearSelection(){ tlSel.keys.clear(); tlSel.anchor=null; tlSel.manual=false; renderSelectionUI(); }
 function renderSelectionUI(){
   selPrune();
   const svg=document.getElementById('tl-svg');
   if(svg){
     svg.querySelectorAll('.sel-ui').forEach(n=>n.remove());
     tlBoxes.forEach(b=>{
-      if(b.laneId!==tlSel.laneId||!tlSel.ids.has(b.taskId)) return;
+      if(!selHas(b.laneId,b.taskId)) return;
       const r=document.createElementNS(SVGNS,'rect');
       r.setAttribute('class','sel-ui'); r.setAttribute('x',b.x0-3); r.setAttribute('y',b.y0-3); r.setAttribute('width',b.x1-b.x0+6); r.setAttribute('height',b.y1-b.y0+6); r.setAttribute('rx',5);
       r.setAttribute('fill','rgba(37,99,235,0.10)'); r.setAttribute('stroke','#2563eb'); r.setAttribute('stroke-width','1.6'); r.setAttribute('stroke-dasharray','4,2'); r.style.pointerEvents='none';
@@ -3901,10 +3897,10 @@ function renderSelectionUI(){
     });
   }
   const menu=document.getElementById('sel-menu'); if(!menu) return;
-  const n=tlSel.ids.size, tabOn=document.getElementById('view-timeline')?.classList.contains('active');
+  const n=tlSel.keys.size, tabOn=document.getElementById('view-timeline')?.classList.contains('active');
   if(!n||!tabOn){ menu.style.display='none'; return; }
-  const lane=getLane(tlSel.laneId);
-  document.getElementById('sel-count').textContent=n+(n>1?' activités sélectionnées':' activité sélectionnée')+(lane?' · '+String(lane.name||'').replace(/\n/g,' '):'');
+  const laneSet=[...new Set(selItems().map(i=>i.lane.id))], lane1=laneSet.length===1?getLane(laneSet[0]):null;
+  document.getElementById('sel-count').textContent=n+(n>1?' activités sélectionnées':' activité sélectionnée')+(lane1?' · '+String(lane1.name||'').replace(/\n/g,' '):(laneSet.length>1?' · '+laneSet.length+' phases':''));
   const t0=selMinStart(); const inp=document.getElementById('sel-t0'); if(inp&&t0) inp.value=fmt(t0);
   if(menu.style.display==='none'){ menu.style.visibility='hidden'; menu.style.display='block'; tlSel.manual=false; }
   placeSelMenu();
@@ -3913,7 +3909,7 @@ function renderSelectionUI(){
 function placeSelMenu(){
   const menu=document.getElementById('sel-menu'), svg=document.getElementById('tl-svg');
   if(!menu||menu.style.display==='none'||!svg||tlSel.manual) return;
-  const bs=tlBoxes.filter(b=>b.laneId===tlSel.laneId&&tlSel.ids.has(b.taskId)); if(!bs.length) return;
+  const bs=tlBoxes.filter(b=>selHas(b.laneId,b.taskId)); if(!bs.length) return;
   const r=svg.getBoundingClientRect(), k=r.width/tlVBw;
   const minX=Math.min(...bs.map(b=>b.x0)), minY=Math.min(...bs.map(b=>b.y0)), maxY=Math.max(...bs.map(b=>b.y1));
   const w=menu.offsetWidth, h=menu.offsetHeight;
@@ -3923,15 +3919,13 @@ function placeSelMenu(){
   menu.style.left=Math.round(x)+'px'; menu.style.top=Math.round(y)+'px';
 }
 function selMinStart(){
-  const lane=getLane(tlSel.laneId); if(!lane) return null;
-  const ds=lane.tasks.filter(t=>tlSel.ids.has(t.id)&&t.start).map(t=>parseD(t.start).getTime());
+  const ds=selItems().filter(i=>i.task.start).map(i=>parseD(i.task.start).getTime());
   return ds.length?new Date(Math.min(...ds)):null;
 }
 function changeSelT0(){
   const v=document.getElementById('sel-t0').value, t0=selMinStart(); if(!v||!t0) return;
   const delta=Math.round((parseD(v)-t0)/86400000); if(!delta) return;
-  const lane=getLane(tlSel.laneId); if(!lane) return;
-  lane.tasks.forEach(t=>{ if(!tlSel.ids.has(t.id)) return; if(t.start) t.start=fmt(addDays(parseD(t.start),delta)); if(t.end) t.end=fmt(addDays(parseD(t.end),delta)); });
+  selItems().forEach(({task:t})=>{ if(t.start) t.start=fmt(addDays(parseD(t.start),delta)); if(t.end) t.end=fmt(addDays(parseD(t.end),delta)); });
   saveState(); renderData(); renderTimeline();
 }
 function addMonthsClamped(d,n){
@@ -3945,7 +3939,7 @@ function addBusinessDays(d,n){
 }
 function shiftSel(sign,unit,count){
   const n=Math.max(1,Math.min(999,Math.round(+count||1)));
-  const lane=getLane(tlSel.laneId); if(!lane||!tlSel.ids.size) return;
+  const items=selItems(); if(!items.length) return;
   const biz=!!document.getElementById('sel-biz')?.checked;
   const move=ds=>{
     const d=parseD(ds);
@@ -3954,9 +3948,9 @@ function shiftSel(sign,unit,count){
     if(biz) return fmt(addBusinessDays(d,sign*days));
     return fmt(addDays(d,sign*(unit==='w'?n*7:n)));
   };
-  lane.tasks.forEach(t=>{ if(!tlSel.ids.has(t.id)) return; if(t.start) t.start=move(t.start); if(t.end) t.end=move(t.end); });
+  items.forEach(({task:t})=>{ if(t.start) t.start=move(t.start); if(t.end) t.end=move(t.end); });
   saveState(); renderData(); renderTimeline();
-  showToast((sign>0?'+':'−')+n+' '+(unit==='m'?'mois':unit==='w'?'sem.':'j')+(biz&&unit!=='m'?' ouvrés':'')+' appliqué à '+tlSel.ids.size+' activité'+(tlSel.ids.size>1?'s':''));
+  showToast((sign>0?'+':'−')+n+' '+(unit==='m'?'mois':unit==='w'?'sem.':'j')+(biz&&unit!=='m'?' ouvrés':'')+' appliqué à '+items.length+' activité'+(items.length>1?'s':''));
 }
 let laneColDrag=null;
 function startLaneColResize(ev){
@@ -3972,6 +3966,7 @@ function startLaneColResize(ev){
   const svg=document.getElementById('tl-svg'); if(!svg) return;
   const pt=e=>{ const r=svg.getBoundingClientRect(); return { x:(e.clientX-r.left)*(tlVBw/r.width), y:(e.clientY-r.top)*(tlVBh/r.height) }; };
   let st=null, box=null;
+  const yMinB=()=>Math.min(...tlBands.map(b=>b.y0)), yMaxB=()=>Math.max(...tlBands.map(b=>b.y1));
   svg.addEventListener('pointerdown',e=>{
     if(e.button!==0||tlDrag) return;
     if(e.target.closest&&e.target.closest('g[style*="cursor"]')) return;
@@ -3984,7 +3979,7 @@ function startLaneColResize(ev){
     if(!st||e.pointerId!==st.id) return;
     if(!st.moved){ if(Math.hypot(e.clientX-st.cx,e.clientY-st.cy)<5) return; st.moved=true; try{ svg.setPointerCapture(e.pointerId); }catch(_){}
       box=document.createElementNS(SVGNS,'rect'); box.setAttribute('class','sel-ui'); box.setAttribute('fill','rgba(37,99,235,0.12)'); box.setAttribute('stroke','#2563eb'); box.setAttribute('stroke-width','1.2'); box.setAttribute('stroke-dasharray','5,3'); box.style.pointerEvents='none'; svg.appendChild(box); }
-    const p=pt(e), y=Math.max(st.band.y0,Math.min(st.band.y1,p.y)), x=Math.max(tlLLv,Math.min(tlVBw,p.x));
+    const p=pt(e), y=Math.max(yMinB(),Math.min(yMaxB(),p.y)), x=Math.max(tlLLv,Math.min(tlVBw,p.x));
     box.setAttribute('x',Math.min(st.x,x)); box.setAttribute('y',Math.min(st.y,y)); box.setAttribute('width',Math.abs(x-st.x)); box.setAttribute('height',Math.abs(y-st.y));
   });
   const end=e=>{
@@ -3992,17 +3987,16 @@ function startLaneColResize(ev){
     const s0=st; st=null;
     try{ svg.releasePointerCapture(e.pointerId); }catch(_){}
     if(!s0.moved){ if(!s0.add) clearSelection(); return; }
-    const p=pt(e), y=Math.max(s0.band.y0,Math.min(s0.band.y1,p.y)), x=Math.max(tlLLv,Math.min(tlVBw,p.x));
+    const p=pt(e), y=Math.max(yMinB(),Math.min(yMaxB(),p.y)), x=Math.max(tlLLv,Math.min(tlVBw,p.x));
     const x0=Math.min(s0.x,x), x1=Math.max(s0.x,x), y0=Math.min(s0.y,y), y1=Math.max(s0.y,y);
-    const hit=tlBoxes.filter(b=>b.laneId===s0.band.laneId&&b.x1>=x0&&b.x0<=x1&&b.y1>=y0&&b.y0<=y1).map(b=>b.taskId);
-    if(!(s0.add&&tlSel.laneId===s0.band.laneId)) tlSel.ids.clear();
-    tlSel.laneId=hit.length||tlSel.ids.size?s0.band.laneId:null;
-    hit.forEach(id=>tlSel.ids.add(id));
-    tlSel.anchor={x:e.clientX+14,y:e.clientY+14}; if(!tlSel.ids.size) tlSel.anchor=null;
+    const hit=tlBoxes.filter(b=>b.x1>=x0&&b.x0<=x1&&b.y1>=y0&&b.y0<=y1).map(b=>selK(b.laneId,b.taskId));
+    if(!s0.add) tlSel.keys.clear();
+    hit.forEach(k=>tlSel.keys.add(k));
+    tlSel.anchor={x:e.clientX+14,y:e.clientY+14}; if(!tlSel.keys.size) tlSel.anchor=null;
     renderSelectionUI();
   };
   svg.addEventListener('pointerup',end); svg.addEventListener('pointercancel',end);
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&tlSel.ids.size&&!e.target.closest?.('input,textarea,select')) clearSelection(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&tlSel.keys.size&&!e.target.closest?.('input,textarea,select')) clearSelection(); });
   window.addEventListener('resize',()=>renderSelectionUI());
   document.getElementById('view-timeline')?.addEventListener('scroll',()=>placeSelMenu(),{passive:true});
   const head=document.getElementById('sel-menu-head'), menu=document.getElementById('sel-menu');
