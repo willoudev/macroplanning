@@ -1,6 +1,6 @@
 # Macro Planning
 
-**Version actuelle : v4.5.0** — voir [CHANGELOG.md](./CHANGELOG.md) · [site en ligne](https://willoudev.github.io/macroplanning/)
+**Version actuelle : v4.x.x** — voir [CHANGELOG.md](./CHANGELOG.md) · [site en ligne](https://willoudev.github.io/macroplanning/)
 
 Application de macro-planning (Gantt) 100% statique — HTML/CSS/JS, sans backend.
 
