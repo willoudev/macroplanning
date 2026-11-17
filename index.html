@@ -180,6 +180,9 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
 #export-menu { position:fixed; z-index:10040; background:#fff; border:1px solid #e5e7eb; border-radius:8px; box-shadow:0 8px 24px rgba(16,24,40,.16); padding:4px; flex-direction:column; gap:2px; }
 #export-menu .btn { border-color:transparent; justify-content:center; font-size:10.5px; font-weight:700; letter-spacing:.04em; width:44px; height:28px; padding:0; }
 #export-menu .btn:hover { background:#f3f4f6; }
+#conv-menu { position:fixed; z-index:10040; background:#fff; border:1px solid #e5e7eb; border-radius:8px; box-shadow:0 8px 24px rgba(16,24,40,.16); padding:4px; flex-direction:column; gap:2px; }
+#conv-menu .btn { border-color:transparent; justify-content:flex-start; font-size:12px; font-weight:600; height:30px; padding:0 12px; white-space:nowrap; text-decoration:none; }
+#conv-menu .btn:hover { background:#f3f4f6; }
 #btn-export[aria-expanded="true"] { background:#f3f4f6; border-color:#e5e7eb; color:#111827; }
 </style>
 </head>
@@ -219,7 +222,7 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
       Accéder
     </button>
     <p style="color:#5a5957; font-size:10px; margin:16px 0 0 0;">
-      v4.5 &mdash; Accès sécurisé
+      v4.6 &mdash; Accès sécurisé
     </p>
   </div>
 </div>
@@ -227,7 +230,7 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
 <div class="header-shell">
 <div class="topbar">
   <button class="btn burger-btn" id="burger-btn" type="button" onclick="toggleSidebar()" title="Ouvrir / fermer le menu" aria-label="Ouvrir / fermer le menu"><span class="burger-icon" aria-hidden="true"><span></span><span></span><span></span></span></button>
-  <div class="brand" title="Macro Planning"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#c0392b"/><path d="M5 7.5h8M9 12h10M6.5 16.5h7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="brand-name">Macro Planning</span><span class="brand-ver">v4.5</span></div>
+  <div class="brand" title="Macro Planning"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#c0392b"/><path d="M5 7.5h8M9 12h10M6.5 16.5h7" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg><span class="brand-name">Macro Planning</span><span class="brand-ver">v4.6</span></div>
   <div class="topbar-sep"></div>
   <button class="btn btn-primary" onclick="addLane()" title="Ajouter une phase"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg> Phase</button>
   <button class="btn" onclick="addFreezeFromGantt()" title="Ajouter une période de gel" style="font-weight:600;"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20"/><path d="M2 12h20"/><path d="m5 5 14 14"/><path d="m19 5-14 14"/></svg> Gel</button>
@@ -241,7 +244,7 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
     <label class="btn btn-icon" style="cursor:pointer;" title="Charger un planning JSON" aria-label="Charger un planning"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9l-.8-1.2A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><input type="file" accept=".json" style="display:none" onchange="importJSON(event)"></label>
     <button class="btn btn-icon" onclick="checkModelsFolder()" title="Importer un modèle" aria-label="Importer un modèle"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></button>
     <button class="btn btn-icon" id="btn-export" onclick="toggleExportMenu(event)" title="Exporter le planning (PNG, SVG, PDF)" aria-label="Exporter le planning" aria-haspopup="true" aria-expanded="false"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg></button>
-    <a class="btn btn-icon" id="btn-png2json" href="https://m365.cloud.microsoft/chat/?titleId=T_26a2fcc3-c3fd-6d09-eff7-a65b904a0b40&amp;source=embedded-builder" target="_blank" rel="noopener noreferrer" title="Conversion Gantt PNG vers JSON (s'ouvre dans un nouvel onglet)" aria-label="Conversion Gantt PNG vers JSON" style="text-decoration:none;"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"/><path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"/></svg></a>
+    <button class="btn btn-icon" id="btn-png2json" type="button" onclick="toggleConvMenu(event)" title="Conversion vers JSON" aria-label="Conversion vers JSON" aria-haspopup="menu" aria-expanded="false"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"/><path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"/></svg></button>
   </div>
 
   <div class="topbar-sep"></div>
@@ -280,6 +283,10 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
     </div>
   </div>
   <div style="font-size:10.5px;color:#888;margin-top:10px;line-height:1.35;">Astuce : Maj + clic sur une activité pour l'ajouter ou la retirer ; faites glisser une barre sélectionnée pour déplacer tout le groupe.</div>
+</div>
+<div id="conv-menu" role="menu" style="display:none;">
+  <a class="btn" role="menuitem" href="https://m365.cloud.microsoft/chat/?titleId=T_26a2fcc3-c3fd-6d09-eff7-a65b904a0b40&amp;source=embedded-builder" target="_blank" rel="noopener noreferrer" onclick="closeConvMenu()">Convertir une image en JSON</a>
+  <a class="btn" role="menuitem" href="https://m365.cloud.microsoft/chat/?titleId=T_fed89d2e-b025-173e-d6e7-132a328f9e82&amp;source=embedded-builder" target="_blank" rel="noopener noreferrer" onclick="closeConvMenu()">Convertir un costmodel en JSON</a>
 </div>
 <div id="export-menu" role="menu" style="display:none;">
   <button class="btn" role="menuitem" onclick="closeExportMenu();copyMacroPlanningImage()" title="Image PNG">PNG</button>
@@ -358,6 +365,9 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
         <label><input type="checkbox" id="chk-jalons-master" checked onchange="toggleJalonsOptions(); renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Jalons</label>
         <div class="sub-options" id="jalons-sub">
           <label class="adv"><input type="checkbox" id="chk-jalons-flags" checked onchange="renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Drapeaux jalons</label>
+          <div style="font-size:11px;color:#555;margin:4px 0 2px;">Type de drapeau</div>
+          <label><input type="radio" name="flag-type" value="big" checked onchange="renderTimeline(); saveState()"/> Grand drapeau</label>
+          <label><input type="radio" name="flag-type" value="small" onchange="renderTimeline(); saveState()"/> Petit drapeau</label>
           <label class="adv"><input type="checkbox" id="chk-dash-dot" onchange="renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Trait pointillé jalon</label>
           <label><input type="checkbox" id="chk-jalon-lines" checked onchange="toggleJalonsLinesOptions(); renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Lignes jalons</label>
           <div class="sub-options" id="jalon-lines-sub">
@@ -367,7 +377,6 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
         </div>
 
         <label><input type="checkbox" id="chk-lane-col" checked onchange="renderTimeline(); saveState()"/> Phases (colonne)</label>
-        <label style="display:flex;align-items:center;gap:6px;padding-left:22px;font-size:11px;color:#555;">Largeur <input type="range" id="lane-col-w" min="80" max="400" step="10" value="130" oninput="laneColW=+this.value;document.getElementById('lane-col-w-val').textContent=this.value;renderTimeline();saveState()" style="flex:1;min-width:0;"/><span id="lane-col-w-val" style="min-width:26px;text-align:right;">130</span></label>
         <label><input type="checkbox" id="chk-taches-master" checked onchange="toggleTachesOptions(); renderTimeline(); saveState()"/> Tâches (barres)</label>
         <div class="sub-options" id="taches-sub">
           <label><input type="checkbox" id="chk-task-label" checked onchange="toggleTaskLabelOptions()"/> Titre des tâches</label>
@@ -539,6 +548,14 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
           </div>
         </div>
 <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:12px;">Distance mât / petit drapeau</span>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button onclick="changeFlagMastGap(-1)" style="width:18px;height:18px;font-size:11px;border-radius:3px;border:1px solid #ccc;background:#fff;cursor:pointer;padding:0;line-height:1;">−</button>
+            <span id="flag-mast-gap-val" style="font-size:11px;color:#c0392b;font-weight:700;min-width:22px;text-align:center;">2</span>
+            <button onclick="changeFlagMastGap(1)" style="width:18px;height:18px;font-size:11px;border-radius:3px;border:1px solid #ccc;background:#fff;cursor:pointer;padding:0;line-height:1;">+</button>
+          </div>
+        </div>
+<div style="display:flex;align-items:center;justify-content:space-between;">
           <span style="font-size:12px;">Ecart vertical entre drapeaux jalons</span>
           <div style="display:flex;align-items:center;gap:4px;">
             <button onclick="changeFlagRowGap(-1)" style="width:18px;height:18px;font-size:11px;border-radius:3px;border:1px solid #ccc;background:#fff;cursor:pointer;padding:0;line-height:1;">−</button>
@@ -661,6 +678,15 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
   <div class="modal-box" style="max-width:760px;max-height:80vh;overflow-y:auto;overflow-x:hidden;">
     <h3 style="margin-bottom:10px;text-align:left;">Historique versions</h3>
     <div style="font-size:13px;line-height:1.5;color:#222;text-align:left;white-space:normal;">
+      <div style="font-weight:700;margin:8px 0 6px;">V4.6:</div>
+      <ul style="margin:0 0 10px 18px;padding:0;">
+        <li>Nouveau : la largeur de la colonne des phases se règle directement dans le Gantt, en faisant glisser son bord droit ; le curseur « Largeur » des réglages est supprimé.</li>
+        <li>Correction : le redimensionnement de la colonne des phases n'ajoute plus de mois dans le futur et ne bloque plus les options « Échelle de temps / Fin de la barre » (l'extension automatique n'est plus mémorisée).</li>
+        <li>Nouveau : Affichage / Jalons / « Type de drapeau » : « Grand drapeau » (actuel) ou « Petit drapeau » (fanion avec le nom et la date JJ/MM/AAAA à droite, sans cadre) ; le choix est mémorisé.</li>
+        <li>Nouveau : Global / Jalons : réglage de la distance entre le mât et le petit drapeau (2 px par défaut). Les réglages largeur / hauteur / épaisseur des drapeaux s'appliquent aussi au petit drapeau.</li>
+        <li>Correction : les réglages « Espace / longueur des tirets » et « Distance mât / petit drapeau » s'appliquent immédiatement au Gantt (ils activent « Trait pointillé jalon » ou le petit drapeau si besoin).</li>
+        <li>Nouveau : le bouton de conversion JSON ouvre un menu avec deux choix : « Convertir une image en JSON » et « Convertir un costmodel en JSON » (nouvel onglet).</li>
+      </ul>
       <div style="font-weight:700;margin:8px 0 6px;">V4.5:</div>
       <ul style="margin:0 0 10px 18px;padding:0;">
         <li>Nouveau : bouton « Conversion Gantt PNG vers JSON » (après l'export), qui ouvre l'assistant de conversion dans un nouvel onglet.</li>
@@ -958,6 +984,7 @@ function restoreUIPrefs() {
 function changeTaskSize(d){ taskRH=Math.max(8,Math.min(80,taskRH+d)); document.getElementById('task-size-val').textContent=taskRH; saveState(); renderTimeline(); }
 function changeJalonSize(d){ jalonRH=Math.max(4,Math.min(80,jalonRH+d)); document.getElementById('jalon-size-val').textContent=jalonRH; saveState(); renderTimeline(); }
 function changeJalonS(d){ jalonS=Math.max(5,Math.min(20,jalonS+d)); document.getElementById('jalon-s-val').textContent=jalonS; saveState(); renderTimeline(); }
+let flagMastGap=2;
 let dashLen=4, dashGap=3, flagPadH=6, flagPadV=6, lineW=2, flagW=1.5, flagRowGap=7;
 let laneColW=130, laneFontSize=13, taskFontSize=11, taskDateFontSize=8, jalonFontSize=11, jalonDateFontSize=8, todayFontSize=8, tMajorFontSize=10, tMinorUpFontSize=8.5, tMinorLblFontSize=9, headerH=36, sepMargin=0, phaseGap=1, timelineGap=8, todayArrowSize=4;
 function applyHeaderHeight(){ document.body.style.setProperty('--header-h', headerH+'px'); }
@@ -1027,10 +1054,16 @@ window.shuffleMilestoneColors = function(){
   renderTimeline();
   saveState();
 }
+function changeFlagMastGap(d){ flagMastGap=Math.max(0,Math.min(20,flagMastGap+d)); document.getElementById('flag-mast-gap-val').textContent=flagMastGap;
+  // Réglage propre au petit drapeau : on bascule dessus pour que l'effet soit visible tout de suite
+  { const r=document.querySelector('input[name="flag-type"][value="small"]'); if(r&&!r.checked){ r.checked=true; showToast('Type de drapeau : petit drapeau'); } }
+  saveState(); renderTimeline(); }
 function changeFlagPad(type,d){ if(type==='h'){ flagPadH=Math.max(1,Math.min(20,flagPadH+d)); document.getElementById('flag-padh-val').textContent=flagPadH; } else { flagPadV=Math.max(1,Math.min(20,flagPadV+d)); document.getElementById('flag-padv-val').textContent=flagPadV; } saveState(); renderTimeline(); }
 function changeDash(type,d){
   if(type==='dash'){ dashLen=Math.max(1,Math.min(20,dashLen+d)); document.getElementById('dash-dash-val').textContent=dashLen; }
   else { dashGap=Math.max(1,Math.min(20,dashGap+d)); document.getElementById('dash-gap-val').textContent=dashGap; }
+  // Les tirets n'existent que si « Trait pointillé jalon » est coché : on l'active pour que le réglage soit visible tout de suite
+  { const c=document.getElementById('chk-dash-dot'); if(c&&!c.checked){ c.checked=true; showToast('« Trait pointillé jalon » activé'); } }
   saveState();
   renderTimeline();
 }
@@ -1469,6 +1502,7 @@ function computeLaneRows(lane){
 }
 
 // ═══ RENDER TIMELINE ═════════════════════════════════════════
+let _tlAutoEnd=false;
 function renderTimeline(){
   window._colorPickerActive = false;
 
@@ -1502,7 +1536,8 @@ function renderTimeline(){
   freezes.forEach(f=>{ if(validISO(f.start)&&validISO(f.end)){ allD.push(parseD(f.start)); allD.push(parseD(f.end)); } });
   const rawMin=new Date(Math.min(...allD)), rawMax=new Date(Math.max(...allD));
   const startOpt=+document.querySelector('input[name="tl-start"]:checked').value;
-  const endOpt=+document.querySelector('input[name="tl-end"]:checked').value;
+  const endOpt=_tlAutoEnd?1:+document.querySelector('input[name="tl-end"]:checked').value;
+  const endChosen=+document.querySelector('input[name="tl-end"]:checked').value;
   let minD=startOpt===0?new Date(rawMin.getFullYear(),rawMin.getMonth(),1):new Date(rawMin.getFullYear(),rawMin.getMonth()-1,1);
   let maxD=endOpt===2?new Date(rawMax):endOpt===0?new Date(rawMax.getFullYear(),rawMax.getMonth()+1,0):new Date(rawMax.getFullYear(),rawMax.getMonth()+2,0);
 
@@ -1528,14 +1563,20 @@ function renderTimeline(){
 
   // Milestone labels
   const LABEL_LINE_H=jalonFontSize+2,LABEL_PAD=3;
+  const smallFlag=document.querySelector('input[name="flag-type"]:checked')?.value==='small', SF_PW=flagPadH*2+1, SF_G=flagMastGap, SF_PH=flagPadV*2+1;
   let allMilestones=[];
   lanes.forEach(lane=>lane.tasks.forEach(task=>{
     if(task.type==='J'){
       const d=parseD(task.end||task.start);
       const lines=(task.title||'Jalon').split('\n');
-      const lh=lines.length*LABEL_LINE_H+flagPadV*2+4;
-      const lw=Math.max(50, Math.max(...lines.map(l=>l.length))*(jalonFontSize*0.65)+flagPadH*2);
-      allMilestones.push({laneId:lane.id,taskId:task.id,x:dX(task.end||task.start),label:task.title||'Jalon',date:fmtLabel(d),color:task.color||'#888',lines,lh,lw});
+      let lh=lines.length*LABEL_LINE_H+flagPadV*2+4;
+      let lw=Math.max(50, Math.max(...lines.map(l=>l.length))*(jalonFontSize*0.65)+flagPadH*2);
+      const dFull=String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+      if(smallFlag){
+        lh=Math.max(lines.length*LABEL_LINE_H+jalonDateFontSize+3, SF_PH);
+        lw=SF_G+SF_PW+5+Math.max(Math.max(...lines.map(l=>l.length))*(jalonFontSize*0.62), dFull.length*(jalonDateFontSize*0.6))+2;
+      }
+      allMilestones.push({laneId:lane.id,taskId:task.id,x:dX(task.end||task.start),label:task.title||'Jalon',date:smallFlag?dFull:fmtLabel(d),color:task.color||'#888',lines,lh,lw});
     }
   }));
   allMilestones.sort((a,b)=>a.x-b.x);
@@ -1561,9 +1602,9 @@ function renderTimeline(){
   // +3px top margin so top flag border is never clipped
   allMilestones.forEach(m=>{ m.labelTopY+=3; });
   const milestoneOverflow = allMilestones.some(m=>m.x + m.lw > VW);
-  if(milestoneOverflow && endOpt !== 1){
-    const endPlusOne = document.querySelector('input[name="tl-end"][value="1"]'); if(endPlusOne) endPlusOne.checked = true;
-    return renderTimeline();
+  // Extension automatique TEMPORAIRE (le choix de l'utilisateur n'est jamais modifié) et seulement pour « Fin dernier mois »
+  if(milestoneOverflow && !_tlAutoEnd && endChosen===0){
+    _tlAutoEnd=true; try{ return renderTimeline(); } finally{ _tlAutoEnd=false; }
   }
   const MA=rows.length===0?0:rows.reduce((a,r)=>Math.max(a,r.topY+r.h),0)+8+3;
   const TOTAL_TOP=MA+TH+timelineGap;
@@ -1663,11 +1704,22 @@ function renderTimeline(){
     const totalH=lh+tipH;
 
     // Forme drapeau : angles droits à gauche, arrondis à droite, pointe bas-gauche
-    const r=5;
-    const flagPath=`M ${m.x},${labelY+lh+tipH} L ${m.x},${labelY} H ${m.x+lw-r} Q ${m.x+lw},${labelY} ${m.x+lw},${labelY+r} V ${labelY+lh-r} Q ${m.x+lw},${labelY+lh} ${m.x+lw-r},${labelY+lh} H ${m.x} Z`;
-    const flagEl=el('path',{d:flagPath,fill:'white',stroke:m.color,'stroke-width':flagW,cursor:'grab'});
-    flagEl.addEventListener('pointerdown',e=>{ if(e.button!==0)return; e.preventDefault(); e.stopPropagation(); const d=getTask(m.laneId,m.taskId);if(!d)return; tlDrag={mode:'move-milestone',laneId:m.laneId,taskId:m.taskId,startX:e.clientX,origStart:d.end||d.start,origEnd:d.end||d.start}; document.addEventListener('pointermove',tlPointerMove,{passive:false}); document.addEventListener('pointerup',tlPointerUp); });
-    flagGroup.appendChild(flagEl);
+    const dragFlag=e=>{ if(e.button!==0)return; e.preventDefault(); e.stopPropagation(); const d=getTask(m.laneId,m.taskId);if(!d)return; tlDrag={mode:'move-milestone',laneId:m.laneId,taskId:m.taskId,startX:e.clientX,origStart:d.end||d.start,origEnd:d.end||d.start}; document.addEventListener('pointermove',tlPointerMove,{passive:false}); document.addEventListener('pointerup',tlPointerUp); };
+    let flagEl;
+    if(smallFlag){
+      // Petit drapeau : fanion plein en haut du mât, nom et date à droite, sans cadre
+      const ph=SF_PH, fi=flagW/2;
+      flagEl=el('rect',{x:m.x,y:labelY,width:lw,height:lh,fill:'#ffffff','fill-opacity':0.001,cursor:'grab'});
+      flagEl.addEventListener('pointerdown',dragFlag);
+      flagGroup.appendChild(flagEl);
+      flagGroup.appendChild(el('path',{d:`M ${m.x+SF_G+fi},${labelY+fi} L ${m.x+SF_G+SF_PW-fi},${labelY+ph/2} L ${m.x+SF_G+fi},${labelY+ph-fi} Z`,fill:m.color,stroke:m.color,'stroke-width':flagW,'stroke-linejoin':'round','pointer-events':'none'}));
+    } else {
+      const r=5;
+      const flagPath=`M ${m.x},${labelY+lh+tipH} L ${m.x},${labelY} H ${m.x+lw-r} Q ${m.x+lw},${labelY} ${m.x+lw},${labelY+r} V ${labelY+lh-r} Q ${m.x+lw},${labelY+lh} ${m.x+lw-r},${labelY+lh} H ${m.x} Z`;
+      flagEl=el('path',{d:flagPath,fill:'white',stroke:m.color,'stroke-width':flagW,cursor:'grab'});
+      flagEl.addEventListener('pointerdown',dragFlag);
+      flagGroup.appendChild(flagEl);
+    }
 
     // Croix suppression drapeau (hover)
     const fDelG=document.createElementNS('http://www.w3.org/2000/svg','g');
@@ -1687,8 +1739,9 @@ function renderTimeline(){
 
     // Texte lignes (blanc, bold)
     m.lines.forEach((line,i)=>{
-      const ty2=labelY+flagPadV+(i+1)*LABEL_LINE_H-1;
-      const tEl=el('text',{x:m.x+lw/2,y:ty2,'text-anchor':'middle','font-size':jalonFontSize,'font-weight':'bold',fill:'#333',cursor:'text'},line);
+      const ty2=smallFlag?labelY+(i+1)*LABEL_LINE_H-2:labelY+flagPadV+(i+1)*LABEL_LINE_H-1;
+      const tEl=smallFlag?el('text',{x:m.x+SF_G+SF_PW+5,y:ty2,'text-anchor':'start','font-size':jalonFontSize,'font-weight':'bold',fill:'#333',cursor:'text'},line):el('text',{x:m.x+lw/2,y:ty2,'text-anchor':'middle','font-size':jalonFontSize,'font-weight':'bold',fill:'#333',cursor:'text'},line);
+      if(smallFlag){ tEl.addEventListener('mouseenter',()=>fDelG.style.display='block'); tEl.addEventListener('mouseleave',()=>fDelG.style.display='none'); }
       tEl.addEventListener('click',ev=>{ev.stopPropagation();openEdit({type:'task',laneId:m.laneId,taskId:m.taskId},m.label,tEl.getBoundingClientRect());});
       flagGroup.appendChild(tEl);
     });
@@ -1699,7 +1752,7 @@ function renderTimeline(){
       else if(sc===3){const isoSW=new Date(rawMin);isoSW.setHours(0,0,0,0);const dw=isoSW.getDay();isoSW.setDate(isoSW.getDate()-(dw===0?6:dw-1));const md=parseD(getTask(m.laneId,m.taskId).end||getTask(m.laneId,m.taskId).start);const mdw=new Date(md);const dw2=mdw.getDay();mdw.setDate(mdw.getDate()-(dw2===0?6:dw2-1));mDateLbl='S'+String(Math.round((mdw-isoSW)/86400000/7)+1).padStart(2,'0');}
       else if(sc===5){const isoSM=new Date(rawMin.getFullYear(),rawMin.getMonth(),1);const md=parseD(getTask(m.laneId,m.taskId).end||getTask(m.laneId,m.taskId).start);mDateLbl='M'+String(Math.round((md.getFullYear()-isoSM.getFullYear())*12+(md.getMonth()-isoSM.getMonth()))+1).padStart(2,'0');}
       else mDateLbl=m.date;
-      flagGroup.appendChild(el('text',{x:m.x+lw/2,y:labelY+lh-3,'text-anchor':'middle','font-size':jalonDateFontSize,fill:'#999'},mDateLbl));
+      flagGroup.appendChild(smallFlag?el('text',{x:m.x+SF_G+SF_PW+5,y:labelY+lh-2,'text-anchor':'start','font-size':jalonDateFontSize,fill:'#666','pointer-events':'none'},mDateLbl):el('text',{x:m.x+lw/2,y:labelY+lh-3,'text-anchor':'middle','font-size':jalonDateFontSize,fill:'#999'},mDateLbl));
     }
   });
 
@@ -2199,6 +2252,14 @@ function renderTimeline(){
   if(typeof _delGroups!=='undefined') _delGroups.forEach(g=>svg.appendChild(g));
   _quickAdd.forEach(g=>svg.appendChild(g));
   tlBands=_laneBands; tlBoxes=_taskBoxes; tlLLv=LL; tlVBw=VW; tlVBh=VH;
+  if(showLaneCol){
+    const hg=document.createElementNS(NS,'g'); hg.style.cursor='col-resize'; hg.style.touchAction='none';
+    hg.appendChild(el('rect',{x:LL-4,y:MA,width:8,height:Math.max(0,VH-MA),fill:'#ffffff','fill-opacity':0.001}));
+    const grip=el('rect',{x:LL-1.5,y:MA+TH+timelineGap,width:3,height:Math.max(0,VH-(MA+TH+timelineGap)),rx:1.5,fill:'#c0392b',opacity:'0'}); grip.style.pointerEvents='none'; hg.appendChild(grip);
+    hg.addEventListener('mouseenter',()=>grip.setAttribute('opacity','0.55')); hg.addEventListener('mouseleave',()=>{ if(!laneColDrag) grip.setAttribute('opacity','0'); });
+    hg.addEventListener('pointerdown',ev=>{ if(ev.button!==0) return; ev.preventDefault(); ev.stopPropagation(); startLaneColResize(ev); });
+    svg.appendChild(hg);
+  }
   renderSelectionUI();
   svg.onmousemove=svg.onmouseleave=ev=>{
     if(!_laneBands.length) return;
@@ -2232,10 +2293,10 @@ function resetAfficherDefaults(){
   toggleTitle(); toggleDatesOptions(); toggleTaskLabelOptions(); toggleTodayLineOptions(); toggleJalonsOptions(); toggleJalonsLinesOptions(); toggleTachesOptions(); saveState(); renderTimeline();
 }
 function resetSizesDefaults(){
-  taskRH = 24; jalonRH = 16; jalonS = 10; flagPadH = 6; flagPadV = 6; flagRowGap = 7; flagW = 1.5; lineW = 2; dashLen = 4; dashGap = 3; laneFontSize = 13; taskFontSize = 11; taskDateFontSize = 8; jalonFontSize = 11; jalonDateFontSize = 8; todayFontSize = 8; tMajorFontSize = 10; tMinorUpFontSize = 8.5; tMinorLblFontSize = 9; headerH = 36; sepMargin = 0; todayArrowSize = 4;
+  taskRH = 24; jalonRH = 16; jalonS = 10; flagPadH = 6; flagPadV = 6; flagMastGap = 2; flagRowGap = 7; flagW = 1.5; lineW = 2; dashLen = 4; dashGap = 3; laneFontSize = 13; taskFontSize = 11; taskDateFontSize = 8; jalonFontSize = 11; jalonDateFontSize = 8; todayFontSize = 8; tMajorFontSize = 10; tMinorUpFontSize = 8.5; tMinorLblFontSize = 9; headerH = 36; sepMargin = 0; todayArrowSize = 4;
   phaseGap = 1; timelineGap = 8;
   document.getElementById('sep-margin-val').textContent=0; document.documentElement.style.setProperty('--sep-margin','0px'); document.getElementById('header-h-val').textContent=36; applyHeaderHeight(); const tas=document.getElementById('today-arrow-size-val'); if(tas) tas.textContent=4;
-  const pairs=[['task-size-val',24],['jalon-size-val',16],['jalon-s-val',10],['flag-padh-val',6],['flag-padv-val',6],['lbl-flag-row-gap',7],['lbl-flag-w',1.5],['lbl-line-w',2],['dash-dash-val',4],['dash-gap-val',3],['lane-font-size-val',13],['task-font-size-val',11],['task-date-font-size-val',8],['jalon-font-size-val',11],['jalon-date-font-size-val',8],['today-font-size-val',8],['tmajor-font-size-val',10],['tminor-up-font-size-val',8.5],['tminor-lbl-font-size-val',9],['header-h-val',36],['sep-margin-val',0],['today-arrow-size-val',4],['phase-gap-val',6],['timeline-gap-val',8]];
+  const pairs=[['task-size-val',24],['jalon-size-val',16],['jalon-s-val',10],['flag-padh-val',6],['flag-padv-val',6],['flag-mast-gap-val',2],['lbl-flag-row-gap',7],['lbl-flag-w',1.5],['lbl-line-w',2],['dash-dash-val',4],['dash-gap-val',3],['lane-font-size-val',13],['task-font-size-val',11],['task-date-font-size-val',8],['jalon-font-size-val',11],['jalon-date-font-size-val',8],['today-font-size-val',8],['tmajor-font-size-val',10],['tminor-up-font-size-val',8.5],['tminor-lbl-font-size-val',9],['header-h-val',36],['sep-margin-val',0],['today-arrow-size-val',4],['phase-gap-val',6],['timeline-gap-val',8]];
   pairs.forEach(([id,v])=>{ const el=document.getElementById(id); if(el) el.textContent=v; });
   saveState();
   renderTimeline();
@@ -2275,6 +2336,7 @@ function resetDefaults() {
    applyHeaderHeight();
   const cJalMaster=document.getElementById('chk-jalons-master'); if(cJalMaster) cJalMaster.checked = true;
   const cJalFlags=document.getElementById('chk-jalons-flags'); if(cJalFlags) cJalFlags.checked = true;
+  { const ft=document.querySelector('input[name="flag-type"][value="big"]'); if(ft) ft.checked=true; }
   const cDashDot=document.getElementById('chk-dash-dot'); if(cDashDot) cDashDot.checked = false;
   const cJalLines=document.getElementById('chk-jalon-lines'); if(cJalLines) cJalLines.checked = true;
   document.getElementById('chk-title').checked = true;
@@ -2545,6 +2607,7 @@ function saveState() {
     dashGap,
     flagPadH,
     flagPadV,
+    flagMastGap,
     lineW,
     flagW,
     flagRowGap,
@@ -2564,6 +2627,7 @@ function saveState() {
     todayArrowSize,
     showJalonsMaster: document.getElementById('chk-jalons-master')?.checked,
     showJalonsFlags: document.getElementById('chk-jalons-flags')?.checked,
+    flagType: document.querySelector('input[name="flag-type"]:checked')?.value || 'big',
     showJalonLines: document.getElementById('chk-jalon-lines')?.checked,
     showDashDot: document.getElementById('chk-dash-dot')?.checked,
     timebarColor,
@@ -2616,6 +2680,7 @@ saveState._orig = function(){
       dashGap,
       flagPadH,
       flagPadV,
+      flagMastGap,
       lineW,
       flagW,
       flagRowGap,
@@ -2633,6 +2698,7 @@ saveState._orig = function(){
       todayArrowSize,
       showJalonsMaster: document.getElementById('chk-jalons-master')?.checked,
       showJalonsFlags: document.getElementById('chk-jalons-flags')?.checked,
+      flagType: document.querySelector('input[name="flag-type"]:checked')?.value || 'big',
       showJalonLines: document.getElementById('chk-jalon-lines')?.checked,
       showDashDot: document.getElementById('chk-dash-dot')?.checked,
       timebarColor,
@@ -2686,6 +2752,9 @@ function restoreSidebar(s) {
   jalonS = s.jalonS ?? 10;
   document.getElementById('jalon-s-val').textContent = jalonS;
   flagPadH = s.flagPadH ?? 6; document.getElementById('flag-padh-val').textContent = flagPadH;
+  flagMastGap = Math.max(0,Math.min(20,+(s.flagMastGap ?? 2)));
+  // Passage unique à 2 px (ancienne valeur par défaut : 3 px), puis le choix de l'utilisateur est conservé
+  if(mastGapMigrationDue()) flagMastGap=2; document.getElementById('flag-mast-gap-val').textContent=flagMastGap;
   flagPadV = s.flagPadV ?? 6; document.getElementById('flag-padv-val').textContent = flagPadV;
   lineW = s.lineW ?? 1.5; document.getElementById('lbl-line-w').textContent = lineW;
   flagW = s.flagW ?? 2; document.getElementById('lbl-flag-w').textContent = flagW;
@@ -2730,6 +2799,7 @@ function restoreSidebar(s) {
   setChk('chk-todayline-arrow', s.showTodayLineArrow ?? true);
   setChk('chk-jalons-master', s.showJalonsMaster ?? true);
   setChk('chk-jalons-flags', s.showJalonsFlags ?? true);
+  { const ft=document.querySelector('input[name="flag-type"][value="'+(s.flagType==='small'?'small':'big')+'"]'); if(ft) ft.checked=true; }
   setChk('chk-jalon-lines', s.showJalonLines ?? true);
   setChk('chk-dash-dot', s.showDashDot ?? false);
   setChk('chk-taches-master', s.showTachesMaster ?? true);
@@ -2793,7 +2863,10 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+let _mgDue=null;
+function mastGapMigrationDue(){ if(_mgDue===null){ try{ _mgDue=!localStorage.getItem('test_mp_mastgap_v46'); localStorage.setItem('test_mp_mastgap_v46','1'); }catch(e){ _mgDue=false; } } return _mgDue; }
 function loadState() {
+  mastGapMigrationDue();
   try {
     let raw = localStorage.getItem(MP_PLANNING_KEY);
     if (!raw) {
@@ -3885,6 +3958,16 @@ function shiftSel(sign,unit,count){
   saveState(); renderData(); renderTimeline();
   showToast((sign>0?'+':'−')+n+' '+(unit==='m'?'mois':unit==='w'?'sem.':'j')+(biz&&unit!=='m'?' ouvrés':'')+' appliqué à '+tlSel.ids.size+' activité'+(tlSel.ids.size>1?'s':''));
 }
+let laneColDrag=null;
+function startLaneColResize(ev){
+  const svg=document.getElementById('tl-svg'); if(!svg) return;
+  const r=svg.getBoundingClientRect();
+  laneColDrag={x0:ev.clientX,w0:laneColW,k:tlVBw/r.width,raf:0};
+  document.body.style.cursor='col-resize';
+  const mv=e=>{ if(!laneColDrag) return; laneColW=Math.min(400,Math.max(80,Math.round(laneColDrag.w0+(e.clientX-laneColDrag.x0)*laneColDrag.k))); if(!laneColDrag.raf) laneColDrag.raf=requestAnimationFrame(()=>{ if(laneColDrag){ laneColDrag.raf=0; renderTimeline(); } }); };
+  const up=()=>{ document.removeEventListener('pointermove',mv); document.removeEventListener('pointerup',up); document.removeEventListener('pointercancel',up); document.body.style.cursor=''; if(laneColDrag&&laneColDrag.raf) cancelAnimationFrame(laneColDrag.raf); laneColDrag=null; renderTimeline(); saveState(); };
+  document.addEventListener('pointermove',mv); document.addEventListener('pointerup',up); document.addEventListener('pointercancel',up);
+}
 (function initLasso(){
   const svg=document.getElementById('tl-svg'); if(!svg) return;
   const pt=e=>{ const r=svg.getBoundingClientRect(); return { x:(e.clientX-r.left)*(tlVBw/r.width), y:(e.clientY-r.top)*(tlVBh/r.height) }; };
@@ -3943,6 +4026,7 @@ function toggleExportMenu(ev){
   if(ev) ev.stopPropagation();
   const m=document.getElementById('export-menu'), b=document.getElementById('btn-export'); if(!m||!b) return;
   if(m.style.display!=='none'){ closeExportMenu(); return; }
+  closeConvMenu();
   const r=b.getBoundingClientRect();
   m.style.display='flex';
   m.style.top=(r.bottom+6)+'px';
@@ -3952,6 +4036,21 @@ function toggleExportMenu(ev){
 document.addEventListener('pointerdown',e=>{ if(!e.target.closest('#export-menu') && !e.target.closest('#btn-export')) closeExportMenu(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeExportMenu(); });
 window.addEventListener('resize',closeExportMenu);
+function closeConvMenu(){ const m=document.getElementById('conv-menu'), b=document.getElementById('btn-png2json'); if(m) m.style.display='none'; if(b) b.setAttribute('aria-expanded','false'); }
+function toggleConvMenu(ev){
+  if(ev) ev.stopPropagation();
+  const m=document.getElementById('conv-menu'), b=document.getElementById('btn-png2json'); if(!m||!b) return;
+  if(m.style.display!=='none'){ closeConvMenu(); return; }
+  closeExportMenu();
+  const r=b.getBoundingClientRect();
+  m.style.display='flex';
+  m.style.top=(r.bottom+6)+'px';
+  m.style.left=Math.max(4,Math.min(window.innerWidth-m.offsetWidth-4,Math.round(r.left+r.width/2-m.offsetWidth/2)))+'px';
+  b.setAttribute('aria-expanded','true');
+}
+document.addEventListener('pointerdown',e=>{ if(!e.target.closest('#conv-menu') && !e.target.closest('#btn-png2json')) closeConvMenu(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeConvMenu(); });
+window.addEventListener('resize',closeConvMenu);
 
 // ═══ MODE D'INTERFACE : SIMPLIFIÉ / AVANCÉ ═══════════════════
 // Le mode n'est pas mémorisé : l'application s'ouvre toujours en « Simplifié »
