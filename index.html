@@ -252,9 +252,9 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
     <span class="topbar-group-label">Réglages</span>
     <button class="btn btn-icon" onclick="promptSaveSettingsJSON()" title="Exporter les réglages" aria-label="Exporter les réglages"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg></button>
     <label class="btn btn-icon" style="cursor:pointer;" title="Importer les réglages" aria-label="Importer les réglages"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg><input type="file" accept=".json" style="display:none" onchange="importSettingsJSON(event)"></label>
-    <a class="btn btn-icon" href="guide-utilisateur.pdf" target="_blank" rel="noopener" title="Guide utilisateur" aria-label="Guide utilisateur" style="text-decoration:none;"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></a>
     <button class="btn btn-icon" onclick="openVersionHistory()" title="Historique des versions" aria-label="Historique des versions"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></button>
     <button class="btn btn-icon" onclick="openMemoryDiagnostic()" title="Diagnostic mémoire locale" aria-label="Diagnostic mémoire locale"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></button>
+    <a class="btn btn-icon" href="guide-utilisateur.pdf" target="_blank" rel="noopener" title="Guide utilisateur" aria-label="Guide utilisateur" style="text-decoration:none;"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></a>
   </div>
   <div class="tab-bar">
     <button class="tab" id="tab-d" onclick="showTab('data')"><svg class="ic" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg> Données</button>
@@ -681,7 +681,7 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
     <div style="font-size:13px;line-height:1.5;color:#222;text-align:left;white-space:normal;">
       <div style="font-weight:700;margin:8px 0 6px;">V4.7:</div>
       <ul style="margin:0 0 10px 18px;padding:0;">
-        <li>Nouveau : guide utilisateur illustré (PDF), accessible par l'icône « ? » du groupe Réglages de la barre d'outils.</li>
+        <li>Nouveau : guide utilisateur illustré (PDF), accessible par l'icône « ? » placée tout à droite du groupe Réglages de la barre d'outils.</li>
       </ul>
       <div style="font-weight:700;margin:8px 0 6px;">V4.6:</div>
       <ul style="margin:0 0 10px 18px;padding:0;">
