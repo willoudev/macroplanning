@@ -131,7 +131,7 @@ svg text, svg tspan { text-rendering: geometricPrecision; }
 .uimode button.active { background:#2c3e50; color:#fff; border-color:#2c3e50; }
 .simple-hint { display:none; font-size:10px; color:#888; margin-top:6px; line-height:1.35; }
 .sidebar.simple .simple-hint { display:block; }
-.sidebar.simple .adv, .sidebar.simple .sub-options:not(#jalons-sub) { display:none !important; }
+.sidebar.simple .adv, .sidebar.simple .sub-options:not(#jalons-sub):not(#freezes-sub) { display:none !important; }
 #print-root { display:none; }
 @media print {
   body > *:not(#print-root) { display:none !important; }
@@ -243,6 +243,7 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
     <button class="btn btn-icon" onclick="promptSaveJSON()" title="Sauvegarder le planning en JSON" aria-label="Sauvegarder le planning"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></svg></button>
     <label class="btn btn-icon" style="cursor:pointer;" title="Charger un planning JSON" aria-label="Charger un planning"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9l-.8-1.2A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg><input type="file" accept=".json" style="display:none" onchange="importJSON(event)"></label>
     <button class="btn btn-icon" onclick="checkModelsFolder()" title="Importer un modèle" aria-label="Importer un modèle"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></button>
+    <button class="btn btn-icon" id="btn-clipboard" type="button" onclick="copyPlanningToClipboard()" title="Copier l'image du planning dans le presse-papier" aria-label="Copier dans le presse-papier"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></button>
     <button class="btn btn-icon" id="btn-export" onclick="toggleExportMenu(event)" title="Exporter le planning (PNG, SVG, PDF)" aria-label="Exporter le planning" aria-haspopup="true" aria-expanded="false"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></svg></button>
     <button class="btn btn-icon" id="btn-png2json" type="button" onclick="toggleConvMenu(event)" title="Conversion vers JSON" aria-label="Conversion vers JSON" aria-haspopup="menu" aria-expanded="false"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"/><path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"/></svg></button>
   </div>
@@ -359,8 +360,14 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
             <label><input type="checkbox" id="chk-todayline-vline" checked onchange="renderTimeline(); saveState()"/> Barre verticale (pointillés)</label>
             <label><input type="checkbox" id="chk-todayline-hline" checked onchange="renderTimeline(); saveState()"/> Barre horizontale</label>
             <label><input type="checkbox" id="chk-todayline-circle" checked onchange="renderTimeline(); saveState()"/> Rond central</label>
+            <label><input type="checkbox" id="chk-todayline-date" onchange="renderTimeline(); saveState()"/> Date au-dessus du rond</label>
             <label><input type="checkbox" id="chk-todayline-arrow" checked onchange="renderTimeline(); saveState()"/> Aujourd'hui + flèche</label>
         </div>
+        </div>
+
+        <label><input type="checkbox" id="chk-freezes" checked onchange="toggleFreezesOptions(); renderTimeline(); saveState()"/> Périodes de gel</label>
+        <div class="sub-options" id="freezes-sub" style="margin-left:14px;">
+          <label><input type="checkbox" id="chk-holidays" onchange="renderTimeline(); saveState()"/> Jours fériés (France)</label>
         </div>
 
         <label><input type="checkbox" id="chk-jalons-master" checked onchange="toggleJalonsOptions(); renderTimeline(); saveState()" style="accent-color:#c0392b;"/> Jalons</label>
@@ -681,6 +688,9 @@ body { font-family: Inter, 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvet
     <div style="font-size:13px;line-height:1.5;color:#222;text-align:left;white-space:normal;">
       <div style="font-weight:700;margin:8px 0 6px;">V4.7:</div>
       <ul style="margin:0 0 10px 18px;padding:0;">
+        <li>Nouveau : Affichages / « Périodes de gel » pour afficher ou masquer les gels, avec en sous-option « Jours fériés (France) » (calculés dans l'outil, sans connexion), affichés sur toute la hauteur du Gantt ; le nom du jour férié apparaît dès que le curseur passe dessus.</li>
+        <li>Nouveau : Affichages / Ligne de temps / « Date au-dessus du rond » (décochée par défaut).</li>
+        <li>Nouveau : bouton « Presse-papier » à gauche de Exporter : copie l'image du planning pour la coller dans un PDF, un mail ou un document, avec un message au centre de l'écran.</li>
         <li>Nouveau : guide utilisateur illustré (PDF), accessible par l'icône « ? » placée tout à droite du groupe Réglages de la barre d'outils.</li>
       </ul>
       <div style="font-weight:700;margin:8px 0 6px;">V4.6:</div>
@@ -905,6 +915,47 @@ function toggleTimebarOptions() {
   const chk = document.getElementById('chk-timebar');
   const sub = document.getElementById('timebar-sub');
   if (chk && sub) sub.style.display = chk.checked ? '' : 'none';
+}
+// ═══ JOURS FÉRIÉS FRANÇAIS (métropole) : calcul, sans donnée externe ═══
+function easterDate(y){ // algorithme de Meeus/Jones/Butcher (calendrier grégorien)
+  const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),
+        h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),
+        mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;
+  return new Date(y,mo-1,da);
+}
+function frHolidays(y){
+  const E=easterDate(y), add=n=>new Date(E.getFullYear(),E.getMonth(),E.getDate()+n);
+  return [
+    {d:new Date(y,0,1),name:"Jour de l'an"}, {d:add(1),name:'Lundi de Pâques'}, {d:new Date(y,4,1),name:'Fête du travail'},
+    {d:new Date(y,4,8),name:'Victoire 1945'}, {d:add(39),name:'Ascension'}, {d:add(50),name:'Lundi de Pentecôte'},
+    {d:new Date(y,6,14),name:'Fête nationale'}, {d:new Date(y,7,15),name:'Assomption'}, {d:new Date(y,10,1),name:'Toussaint'},
+    {d:new Date(y,10,11),name:'Armistice 1918'}, {d:new Date(y,11,25),name:'Noël'}
+  ];
+}
+function frHolidaysBetween(d1,d2){
+  const out=[]; for(let y=d1.getFullYear();y<=d2.getFullYear();y++) frHolidays(y).forEach(h=>{ if(h.d>=d1&&h.d<=d2) out.push(h); });
+  return out;
+}
+function fmtDMY(d){ return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear(); }
+function showHolidayTip(ev){
+  let tip=document.getElementById('holiday-tip');
+  const svg=document.getElementById('tl-svg'), hits=window._tlHol||[];
+  if(!svg||!hits.length||ev.buttons){ if(tip) tip.style.display='none'; return; }
+  const r=svg.getBoundingClientRect(); if(!r.width){ return; }
+  const x=(ev.clientX-r.left)*((tlVBw||r.width)/r.width), tol=3;
+  const h=hits.find(k=>x>=k.x1-tol&&x<=k.x2+tol);
+  if(!h){ if(tip) tip.style.display='none'; return; }
+  if(!tip){ tip=document.createElement('div'); tip.id='holiday-tip'; tip.style.cssText='position:fixed;z-index:10050;pointer-events:none;background:#263238;color:#fff;font:600 12px/1.3 system-ui,sans-serif;padding:6px 9px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.28);white-space:nowrap;'; document.body.appendChild(tip); }
+  const dt=h.date.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  tip.innerHTML=''; const b=document.createElement('div'); b.textContent=h.name; const d=document.createElement('div'); d.textContent=dt; d.style.cssText='font-weight:400;opacity:.85;font-size:11px;'; tip.appendChild(b); tip.appendChild(d);
+  tip.style.display='block';
+  tip.style.left=Math.min(window.innerWidth-tip.offsetWidth-8,ev.clientX+14)+'px';
+  tip.style.top=(ev.clientY+16)+'px';
+}
+function toggleFreezesOptions() {
+  const chk = document.getElementById('chk-freezes');
+  const sub = document.getElementById('freezes-sub');
+  if (chk && sub) sub.style.display = chk.checked ? 'flex' : 'none';
 }
 function toggleTodayLineOptions() {
   const chk = document.getElementById('chk-todayline');
@@ -1532,13 +1583,15 @@ function renderTimeline(){
   function el(tag,attrs,txt){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(txt!==undefined) e.textContent=txt; return e; }
   function multiText(x,y,txt,attrs={},lineH=14,anchor='middle'){ const g=document.createElementNS(NS,'text'); for(const k in attrs) g.setAttribute(k,attrs[k]); g.setAttribute('x',x); g.setAttribute('y',y); g.setAttribute('text-anchor',anchor); const lines=String(txt||'').split('\n'); lines.forEach((line,i)=>{ const t=document.createElementNS(NS,'tspan'); t.setAttribute('x',x); t.setAttribute('dy', i===0 ? 0 : lineH); t.textContent=line || ' '; g.appendChild(t); }); return g; }
   function upTxt(x,baseY,txt){ const e=document.createElementNS(NS,'text'); e.setAttribute('transform',`rotate(-90,${x},${baseY})`); e.setAttribute('x',x); e.setAttribute('y',baseY); e.setAttribute('text-anchor','start'); e.setAttribute('font-size',tMinorUpFontSize); e.setAttribute('fill','rgba(255,255,255,0.75)'); e.textContent=txt; return e; }
-  let todayMarker=null, todayLabel=null, todayArrow=null;
+  let todayMarker=null, todayLabel=null, todayArrow=null, todayDate=null;
 
   let allD=[];
   lanes.forEach(l=>l.tasks.forEach(t=>{ if(t.start)allD.push(parseD(t.start)); if(t.end)allD.push(parseD(t.end)); }));
   if(!allD.length){ svg.setAttribute('viewBox','0 0 600 80'); svg.appendChild(el('text',{x:300,y:45,'text-anchor':'middle',fill:'#aaa','font-size':14},'Aucune tâche définie, appuyez sur + Phase ou chargez un modèle prédéfinis')); return; }
 
-  freezes.forEach(f=>{ if(validISO(f.start)&&validISO(f.end)){ allD.push(parseD(f.start)); allD.push(parseD(f.end)); } });
+  const showFreezes=document.getElementById('chk-freezes')?.checked !== false;
+  const showHolidays=showFreezes && document.getElementById('chk-holidays')?.checked === true;
+  if(showFreezes) freezes.forEach(f=>{ if(validISO(f.start)&&validISO(f.end)){ allD.push(parseD(f.start)); allD.push(parseD(f.end)); } });
   const rawMin=new Date(Math.min(...allD)), rawMax=new Date(Math.max(...allD));
   const startOpt=+document.querySelector('input[name="tl-start"]:checked').value;
   const endOpt=_tlAutoEnd?1:+document.querySelector('input[name="tl-end"]:checked').value;
@@ -1550,9 +1603,11 @@ function renderTimeline(){
   const tlSvgParent = document.getElementById("tl-svg").parentElement;
   const showLaneCol=document.getElementById('chk-lane-col')?.checked??true;
   const LL=showLaneCol?laneColW:0, TH0=showTimeBar?52:0, RH=taskRH;
-  const _fzList=freezes.filter(f=>validISO(f.start)&&validISO(f.end));
+  const _fzList=showFreezes?freezes.filter(f=>validISO(f.start)&&validISO(f.end)):[];
+  const _holList=showHolidays?frHolidaysBetween(minD,maxD):[];
+  const _holHit=[]; window._tlHol=_holHit; // zones survolables des jours fériés (infobulle immédiate)
   const fzFont=Math.max(7,Math.round(taskFontSize*0.72)); // police réduite pour les périodes de gel
-  const FZ=_fzList.length?fzFont+8:0; // bandeau des gels, en bas de la barre de temps
+  const FZ=(_fzList.length||_holList.length)?fzFont+8:0; // bandeau des gels, en bas de la barre de temps
   const TH=TH0+FZ;
   let _measuredW = 0;
   if(tlSvgParent){
@@ -2208,6 +2263,9 @@ function renderTimeline(){
 
         const lineH=4, dy=MA+TH+4, ds=8;
         if (showCircle) todayMarker=el('circle',{cx:tx,cy:dy,r:6,fill:todaylineColor,stroke:'white','stroke-width':2});
+        if (document.getElementById('chk-todayline-date')?.checked === true) {
+          todayDate=el('text',{x:tx,y:dy-(showCircle?10:4),'text-anchor':'middle',fill:'#ffffff',stroke:'#1b2430','stroke-width':2.6,'paint-order':'stroke','stroke-linejoin':'round','font-size':todayFontSize,'font-weight':'bold','pointer-events':'none'},fmtDMY(today));
+        }
 
         if (showArrow) {
           todayLabel=el('text',{x:tx,y:MA+(TH0/2)+1,'text-anchor':'middle',fill:'white','font-size':todayFontSize,'font-weight':'bold'},"aujourd'hui");
@@ -2250,6 +2308,15 @@ function renderTimeline(){
       if(lbl && lbl.length*fzFont*0.58 < (x2-x1)-6) fzG.appendChild(el('text',{x:(x1+x2)/2,y:fzY+FZ/2+fzFont*0.35,'text-anchor':'middle','font-size':fzFont,'font-weight':'bold',fill:showTimeBar?'#fff':'#263238','pointer-events':'none'},lbl));
       if(f.full) fzOver.appendChild(el('rect',{x:x1,y:MA+TH,width:x2-x1,height:Math.max(0,VH-(MA+TH)),fill:col,'fill-opacity':op})); // sous la barre de temps
     });
+    _holList.forEach(h=>{
+      const x1=Math.max(LL,dX(h.d)), x2=Math.min(VW,dX(h.d)+PPD);
+      if(x2<=x1) return;
+      const band=el('rect',{x:x1,y:fzY+2,width:x2-x1,height:FZ-4,rx:2,fill:'#78909c','fill-opacity':0.85,stroke:'#546e7a','stroke-width':1});
+      _holHit.push({x1,x2,name:h.name,date:h.d});
+      fzG.appendChild(band);
+      fzOver.appendChild(el('rect',{x:x1,y:MA+TH,width:x2-x1,height:Math.max(0,VH-(MA+TH)),fill:'#78909c','fill-opacity':0.2})); // sur toute la hauteur
+      if(h.name.length*fzFont*0.58 < (x2-x1)-4) fzG.appendChild(el('text',{x:(x1+x2)/2,y:fzY+FZ/2+fzFont*0.35,'text-anchor':'middle','font-size':fzFont,'font-weight':'bold',fill:'#fff','pointer-events':'none'},h.name));
+    });
     svg.appendChild(fzG);
     if(fzOver.childNodes.length) svg.appendChild(fzOver);
   }
@@ -2266,6 +2333,7 @@ function renderTimeline(){
     svg.appendChild(hg);
   }
   renderSelectionUI();
+  if(!svg._holTipBound){ svg._holTipBound=true; svg.addEventListener('mousemove',showHolidayTip); svg.addEventListener('mouseleave',()=>{ const t=document.getElementById('holiday-tip'); if(t) t.style.display='none'; }); }
   svg.onmousemove=svg.onmouseleave=ev=>{
     if(!_laneBands.length) return;
     const r=svg.getBoundingClientRect(); const k=VH/r.height;
@@ -2275,6 +2343,7 @@ function renderTimeline(){
     _laneBands.forEach(b=>{ const on=b===cur; b.g.style.opacity=on?'1':'0'; b.g.style.pointerEvents=on?'auto':'none'; });
   };
 
+  if(todayDate) svg.appendChild(todayDate);
   if(todayMarker) svg.appendChild(todayMarker);
   if(todayArrow) svg.appendChild(todayArrow);
 }
@@ -2292,10 +2361,10 @@ function resetTimeScaleDefaults(){
 }
 function resetAfficherDefaults(){
   const set=(id,v)=>{ const el=document.getElementById(id); if(el) el.checked=v; };
-  set('chk-title', true); set('chk-timebar', true); set('chk-todayline', true); set('chk-todayline-vline', true); set('chk-todayline-hline', true); set('chk-todayline-circle', true); set('chk-todayline-arrow', true); set('chk-taches-master', true); set('chk-lane-col', true); set('chk-dates', true); set('chk-task-label', true); set('chk-task-dash-dot', true); set('chk-jalons-master', true); set('chk-jalons-flags', true); set('chk-jalon-lines', true); set('chk-dash-dot', false);
+  set('chk-title', true); set('chk-timebar', true); set('chk-todayline', true); set('chk-todayline-vline', true); set('chk-todayline-hline', true); set('chk-todayline-circle', true); set('chk-todayline-date', false); set('chk-freezes', true); set('chk-holidays', false); set('chk-todayline-arrow', true); set('chk-taches-master', true); set('chk-lane-col', true); set('chk-dates', true); set('chk-task-label', true); set('chk-task-dash-dot', true); set('chk-jalons-master', true); set('chk-jalons-flags', true); set('chk-jalon-lines', true); set('chk-dash-dot', false);
   const d=document.querySelector('input[name="dates-pos"][value="right"]'); if(d) d.checked=true;
   const t=document.querySelector('input[name="task-label-pos"][value="left"]'); if(t) t.checked=true;
-  toggleTitle(); toggleDatesOptions(); toggleTaskLabelOptions(); toggleTodayLineOptions(); toggleJalonsOptions(); toggleJalonsLinesOptions(); toggleTachesOptions(); saveState(); renderTimeline();
+  toggleTitle(); toggleDatesOptions(); toggleTaskLabelOptions(); toggleTodayLineOptions(); toggleFreezesOptions(); toggleJalonsOptions(); toggleJalonsLinesOptions(); toggleTachesOptions(); saveState(); renderTimeline();
 }
 function resetSizesDefaults(){
   taskRH = 24; jalonRH = 16; jalonS = 10; flagPadH = 6; flagPadV = 6; flagMastGap = 2; flagRowGap = 7; flagW = 1.5; lineW = 2; dashLen = 4; dashGap = 3; laneFontSize = 13; taskFontSize = 11; taskDateFontSize = 8; jalonFontSize = 11; jalonDateFontSize = 8; todayFontSize = 8; tMajorFontSize = 10; tMinorUpFontSize = 8.5; tMinorLblFontSize = 9; headerH = 36; sepMargin = 0; todayArrowSize = 4;
@@ -2371,6 +2440,7 @@ function resetDefaults() {
   updateDayStepVisibility();
   if(typeof toggleTimebarOptions==='function') toggleTimebarOptions();
   if(typeof toggleTodayLineOptions==='function') toggleTodayLineOptions();
+  if(typeof toggleFreezesOptions==='function') toggleFreezesOptions();
   if(typeof toggleJalonsOptions==='function') toggleJalonsOptions();
   if(typeof toggleJalonsLinesOptions==='function') toggleJalonsLinesOptions();
   if(typeof toggleTachesOptions==='function') toggleTachesOptions();
@@ -2647,6 +2717,9 @@ function saveState() {
     showTodayLineVline: document.getElementById('chk-todayline-vline')?.checked,
     showTodayLineHline: document.getElementById('chk-todayline-hline')?.checked,
     showTodayLineCircle: document.getElementById('chk-todayline-circle')?.checked,
+    showTodayLineDate: document.getElementById('chk-todayline-date')?.checked,
+    showFreezes: document.getElementById('chk-freezes')?.checked,
+    showHolidays: document.getElementById('chk-holidays')?.checked,
     showTodayLineArrow: document.getElementById('chk-todayline-arrow')?.checked,
     showTachesMaster: document.getElementById('chk-taches-master')?.checked,
     showDates: document.getElementById('chk-dates')?.checked,
@@ -2718,6 +2791,9 @@ saveState._orig = function(){
       showTodayLineVline: document.getElementById('chk-todayline-vline')?.checked,
       showTodayLineHline: document.getElementById('chk-todayline-hline')?.checked,
       showTodayLineCircle: document.getElementById('chk-todayline-circle')?.checked,
+      showTodayLineDate: document.getElementById('chk-todayline-date')?.checked,
+      showFreezes: document.getElementById('chk-freezes')?.checked,
+      showHolidays: document.getElementById('chk-holidays')?.checked,
       showTodayLineArrow: document.getElementById('chk-todayline-arrow')?.checked,
       showTachesMaster: document.getElementById('chk-taches-master')?.checked,
       showDates: document.getElementById('chk-dates')?.checked,
@@ -2801,6 +2877,9 @@ function restoreSidebar(s) {
   setChk('chk-todayline-vline', s.showTodayLineVline ?? true);
   setChk('chk-todayline-hline', s.showTodayLineHline ?? true);
   setChk('chk-todayline-circle', s.showTodayLineCircle ?? true);
+  setChk('chk-todayline-date', s.showTodayLineDate ?? false);
+  setChk('chk-freezes', s.showFreezes ?? true);
+  setChk('chk-holidays', s.showHolidays ?? false);
   setChk('chk-todayline-arrow', s.showTodayLineArrow ?? true);
   setChk('chk-jalons-master', s.showJalonsMaster ?? true);
   setChk('chk-jalons-flags', s.showJalonsFlags ?? true);
@@ -2814,6 +2893,7 @@ function restoreSidebar(s) {
 
   if(typeof toggleTimebarOptions==='function') toggleTimebarOptions();
   if(typeof toggleTodayLineOptions==='function') toggleTodayLineOptions();
+  if(typeof toggleFreezesOptions==='function') toggleFreezesOptions();
   if(typeof toggleJalonsOptions==='function') toggleJalonsOptions();
   if(typeof toggleJalonsLinesOptions==='function') toggleJalonsLinesOptions();
   if(typeof toggleTachesOptions==='function') toggleTachesOptions();
@@ -2972,6 +3052,37 @@ async function copyMacroPlanningImage(){
   } catch(err) {
     showToast('Impossible de générer le PNG.');
   }
+}
+
+function showCenterNotice(msg){
+  let n=document.getElementById('center-notice');
+  if(!n){ n=document.createElement('div'); n.id='center-notice'; n.setAttribute('role','status'); n.style.cssText='position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10060;pointer-events:none;background:#263238;color:#fff;font:600 15px/1.4 system-ui,sans-serif;padding:16px 26px;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:center;max-width:80vw;transition:opacity .25s;opacity:0;'; document.body.appendChild(n); }
+  n.textContent=msg; n.style.opacity='1';
+  clearTimeout(n._t); n._t=setTimeout(()=>{ n.style.opacity='0'; },2200);
+}
+async function copyPlanningToClipboard(){
+  try {
+    if(!navigator.clipboard || typeof ClipboardItem==='undefined'){ showToast('Presse-papier non disponible dans ce navigateur : utilisez PNG.'); return; }
+    const b=buildExportSvg(); if(!b){ showToast('Rien à copier : planning vide.'); return; }
+    const xml=new XMLSerializer().serializeToString(b.svg);
+    const blobPromise=new Promise((resolve,reject)=>{
+      const img=new Image();
+      img.onload=()=>{
+        try {
+          const scale=2, canvas=document.createElement('canvas');
+          canvas.width=Math.round(b.W*scale); canvas.height=Math.round(b.H*scale);
+          const ctx=canvas.getContext('2d');
+          ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+          ctx.drawImage(img,0,0,canvas.width,canvas.height);
+          canvas.toBlob(bl=>bl?resolve(bl):reject(new Error('png')),'image/png');
+        } catch(e){ reject(e); }
+      };
+      img.onerror=()=>reject(new Error('img'));
+      img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(xml);
+    });
+    await navigator.clipboard.write([new ClipboardItem({'image/png':blobPromise})]);
+    showCenterNotice('Image du macro-planning Gantt copiée dans le presse-papier');
+  } catch(err){ showToast('Copie impossible : autorisez le presse-papier ou utilisez PNG.'); }
 }
 
 function promptSaveJSON() {
@@ -3869,6 +3980,7 @@ function fzPopDate(id,k,v){
   if(a) a.value=f.start; if(b) b.value=f.end; if(d) d.textContent='Durée : '+dur(f.start,f.end);
 }
 function addFreezeFromGantt(){
+  { const c=document.getElementById('chk-freezes'); if(c&&!c.checked){ c.checked=true; toggleFreezesOptions(); } }
   addFreeze();
   showToast('Période de gel ajoutée : cliquez dessus dans la barre de temps pour la modifier.');
 }
